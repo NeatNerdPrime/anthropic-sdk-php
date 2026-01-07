@@ -12,6 +12,10 @@ use Anthropic\Services\ModelsService;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 
+/**
+ * @phpstan-import-type NormalizedRequest from \Anthropic\Core\BaseClient
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 class Client extends BaseClient
 {
     public string $apiKey;
@@ -73,6 +77,12 @@ class Client extends BaseClient
     }
 
     /** @return array<string,string> */
+    protected function authHeaders(): array
+    {
+        return [...$this->apiKeyAuth(), ...$this->bearerAuth()];
+    }
+
+    /** @return array<string,string> */
     protected function apiKeyAuth(): array
     {
         return $this->apiKey ? ['X-Api-Key' => $this->apiKey] : [];
@@ -84,5 +94,33 @@ class Client extends BaseClient
         return $this->authToken ? [
             'Authorization' => "Bearer {$this->authToken}",
         ] : [];
+    }
+
+    /**
+     * @internal
+     *
+     * @param string|list<string> $path
+     * @param array<string,mixed> $query
+     * @param array<string,string|int|list<string|int>|null> $headers
+     * @param RequestOpts|null $opts
+     *
+     * @return array{NormalizedRequest, RequestOptions}
+     */
+    protected function buildRequest(
+        string $method,
+        string|array $path,
+        array $query,
+        array $headers,
+        mixed $body,
+        RequestOptions|array|null $opts,
+    ): array {
+        return parent::buildRequest(
+            method: $method,
+            path: $path,
+            query: $query,
+            headers: [...$this->authHeaders(), ...$headers],
+            body: $body,
+            opts: $opts,
+        );
     }
 }

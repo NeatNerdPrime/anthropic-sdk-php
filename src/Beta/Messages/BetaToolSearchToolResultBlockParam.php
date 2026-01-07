@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaToolSearchToolResultBlockParam\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaToolSearchToolResultBlockParam\Content
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  *
@@ -29,6 +30,7 @@ final class BetaToolSearchToolResultBlockParam implements BaseModel
     #[Required]
     public string $type = 'tool_search_tool_result';
 
+    /** @var ContentVariants $content */
     #[Required]
     public BetaToolSearchToolResultErrorParam|BetaToolSearchToolSearchResultBlockParam $content;
 

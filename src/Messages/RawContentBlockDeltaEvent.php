@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type RawContentBlockDeltaVariants from \Anthropic\Messages\RawContentBlockDelta
  * @phpstan-import-type RawContentBlockDeltaShape from \Anthropic\Messages\RawContentBlockDelta
  *
  * @phpstan-type RawContentBlockDeltaEventShape = array{
@@ -24,6 +25,7 @@ final class RawContentBlockDeltaEvent implements BaseModel
     #[Required]
     public string $type = 'content_block_delta';
 
+    /** @var RawContentBlockDeltaVariants $delta */
     #[Required(union: RawContentBlockDelta::class)]
     public TextDelta|InputJSONDelta|CitationsDelta|ThinkingDelta|SignatureDelta $delta;
 

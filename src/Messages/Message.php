@@ -9,13 +9,14 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentBlockVariants from \Anthropic\Messages\ContentBlock
  * @phpstan-import-type ContentBlockShape from \Anthropic\Messages\ContentBlock
  * @phpstan-import-type UsageShape from \Anthropic\Messages\Usage
  *
  * @phpstan-type MessageShape = array{
  *   id: string,
  *   content: list<ContentBlockShape>,
- *   model: Model|value-of<Model>,
+ *   model: string|Model|value-of<Model>,
  *   role: 'assistant',
  *   stopReason: null|StopReason|value-of<StopReason>,
  *   stopSequence: string|null,
@@ -83,7 +84,7 @@ final class Message implements BaseModel
      * [{"type": "text", "text": "B)"}]
      * ```
      *
-     * @var list<TextBlock|ThinkingBlock|RedactedThinkingBlock|ToolUseBlock|ServerToolUseBlock|WebSearchToolResultBlock> $content
+     * @var list<ContentBlockVariants> $content
      */
     #[Required(list: ContentBlock::class)]
     public array $content;
@@ -91,7 +92,7 @@ final class Message implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @var value-of<Model> $model
+     * @var string|value-of<Model> $model
      */
     #[Required(enum: Model::class)]
     public string $model;
@@ -174,7 +175,7 @@ final class Message implements BaseModel
      * You must use named parameters to construct any parameters with a default value.
      *
      * @param list<ContentBlockShape> $content
-     * @param Model|value-of<Model> $model
+     * @param string|Model|value-of<Model> $model
      * @param StopReason|value-of<StopReason>|null $stopReason
      * @param Usage|UsageShape $usage
      */
@@ -251,7 +252,7 @@ final class Message implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @param Model|value-of<Model> $model
+     * @param string|Model|value-of<Model> $model
      */
     public function withModel(Model|string $model): self
     {

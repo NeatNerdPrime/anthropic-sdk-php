@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ErrorObjectVariants from \Anthropic\ErrorObject
  * @phpstan-import-type ErrorObjectShape from \Anthropic\ErrorObject
  *
  * @phpstan-type ErrorResponseShape = array{
@@ -24,6 +25,7 @@ final class ErrorResponse implements BaseModel
     #[Required]
     public string $type = 'error';
 
+    /** @var ErrorObjectVariants $error */
     #[Required(union: ErrorObject::class)]
     public InvalidRequestError|AuthenticationError|BillingError|PermissionError|NotFoundError|RateLimitError|GatewayTimeoutError|APIErrorObject|OverloadedError $error;
 

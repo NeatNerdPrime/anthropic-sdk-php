@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type SourceVariants from \Anthropic\Beta\Messages\BetaDocumentBlock\Source
  * @phpstan-import-type BetaCitationConfigShape from \Anthropic\Beta\Messages\BetaCitationConfig
  * @phpstan-import-type SourceShape from \Anthropic\Beta\Messages\BetaDocumentBlock\Source
  *
@@ -35,6 +36,7 @@ final class BetaDocumentBlock implements BaseModel
     #[Required]
     public ?BetaCitationConfig $citations;
 
+    /** @var SourceVariants $source */
     #[Required(union: Source::class)]
     public BetaBase64PDFSource|BetaPlainTextSource $source;
 

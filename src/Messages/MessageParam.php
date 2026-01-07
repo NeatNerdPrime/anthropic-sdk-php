@@ -11,6 +11,7 @@ use Anthropic\Messages\MessageParam\Content;
 use Anthropic\Messages\MessageParam\Role;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Messages\MessageParam\Content
  * @phpstan-import-type ContentShape from \Anthropic\Messages\MessageParam\Content
  *
  * @phpstan-type MessageParamShape = array{
@@ -22,9 +23,7 @@ final class MessageParam implements BaseModel
     /** @use SdkModel<MessageParamShape> */
     use SdkModel;
 
-    /**
-     * @var string|list<TextBlockParam|ImageBlockParam|DocumentBlockParam|SearchResultBlockParam|ThinkingBlockParam|RedactedThinkingBlockParam|ToolUseBlockParam|ToolResultBlockParam|ServerToolUseBlockParam|WebSearchToolResultBlockParam> $content
-     */
+    /** @var ContentVariants $content */
     #[Required(union: Content::class)]
     public string|array $content;
 

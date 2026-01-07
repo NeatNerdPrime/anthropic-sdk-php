@@ -10,6 +10,7 @@ use Anthropic\Core\Contracts\BaseModel;
 use Anthropic\Messages\Model;
 
 /**
+ * @phpstan-import-type BetaContentBlockVariants from \Anthropic\Beta\Messages\BetaContentBlock
  * @phpstan-import-type BetaContainerShape from \Anthropic\Beta\Messages\BetaContainer
  * @phpstan-import-type BetaContentBlockShape from \Anthropic\Beta\Messages\BetaContentBlock
  * @phpstan-import-type BetaContextManagementResponseShape from \Anthropic\Beta\Messages\BetaContextManagementResponse
@@ -20,7 +21,7 @@ use Anthropic\Messages\Model;
  *   container: null|BetaContainer|BetaContainerShape,
  *   content: list<BetaContentBlockShape>,
  *   contextManagement: null|BetaContextManagementResponse|BetaContextManagementResponseShape,
- *   model: Model|value-of<Model>,
+ *   model: string|Model|value-of<Model>,
  *   role: 'assistant',
  *   stopReason: null|BetaStopReason|value-of<BetaStopReason>,
  *   stopSequence: string|null,
@@ -94,7 +95,7 @@ final class BetaMessage implements BaseModel
      * [{"type": "text", "text": "B)"}]
      * ```
      *
-     * @var list<BetaTextBlock|BetaThinkingBlock|BetaRedactedThinkingBlock|BetaToolUseBlock|BetaServerToolUseBlock|BetaWebSearchToolResultBlock|BetaWebFetchToolResultBlock|BetaCodeExecutionToolResultBlock|BetaBashCodeExecutionToolResultBlock|BetaTextEditorCodeExecutionToolResultBlock|BetaToolSearchToolResultBlock|BetaMCPToolUseBlock|BetaMCPToolResultBlock|BetaContainerUploadBlock> $content
+     * @var list<BetaContentBlockVariants> $content
      */
     #[Required(list: BetaContentBlock::class)]
     public array $content;
@@ -110,7 +111,7 @@ final class BetaMessage implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @var value-of<Model> $model
+     * @var string|value-of<Model> $model
      */
     #[Required(enum: Model::class)]
     public string $model;
@@ -199,7 +200,7 @@ final class BetaMessage implements BaseModel
      * @param BetaContainer|BetaContainerShape|null $container
      * @param list<BetaContentBlockShape> $content
      * @param BetaContextManagementResponse|BetaContextManagementResponseShape|null $contextManagement
-     * @param Model|value-of<Model> $model
+     * @param string|Model|value-of<Model> $model
      * @param BetaStopReason|value-of<BetaStopReason>|null $stopReason
      * @param BetaUsage|BetaUsageShape $usage
      */
@@ -309,7 +310,7 @@ final class BetaMessage implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @param Model|value-of<Model> $model
+     * @param string|Model|value-of<Model> $model
      */
     public function withModel(Model|string $model): self
     {

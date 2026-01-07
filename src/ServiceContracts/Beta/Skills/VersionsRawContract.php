@@ -17,6 +17,9 @@ use Anthropic\Core\Exceptions\APIException;
 use Anthropic\PageCursor;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface VersionsRawContract
 {
     /**
@@ -26,6 +29,7 @@ interface VersionsRawContract
      *
      * The format and length of IDs may change over time.
      * @param array<string,mixed>|VersionCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<VersionNewResponse>
      *
@@ -34,7 +38,7 @@ interface VersionsRawContract
     public function create(
         string $skillID,
         array|VersionCreateParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -44,6 +48,7 @@ interface VersionsRawContract
      *
      * Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
      * @param array<string,mixed>|VersionRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<VersionGetResponse>
      *
@@ -52,7 +57,7 @@ interface VersionsRawContract
     public function retrieve(
         string $version,
         array|VersionRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -62,6 +67,7 @@ interface VersionsRawContract
      *
      * The format and length of IDs may change over time.
      * @param array<string,mixed>|VersionListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<PageCursor<VersionListResponse>>
      *
@@ -70,7 +76,7 @@ interface VersionsRawContract
     public function list(
         string $skillID,
         array|VersionListParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -80,6 +86,7 @@ interface VersionsRawContract
      *
      * Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
      * @param array<string,mixed>|VersionDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<VersionDeleteResponse>
      *
@@ -88,6 +95,6 @@ interface VersionsRawContract
     public function delete(
         string $version,
         array|VersionDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 }

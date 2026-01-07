@@ -11,6 +11,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type SourceVariants from \Anthropic\Beta\Messages\BetaImageBlockParam\Source
  * @phpstan-import-type SourceShape from \Anthropic\Beta\Messages\BetaImageBlockParam\Source
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  *
@@ -29,6 +30,7 @@ final class BetaImageBlockParam implements BaseModel
     #[Required]
     public string $type = 'image';
 
+    /** @var SourceVariants $source */
     #[Required(union: Source::class)]
     public BetaBase64ImageSource|BetaURLImageSource|BetaFileImageSource $source;
 

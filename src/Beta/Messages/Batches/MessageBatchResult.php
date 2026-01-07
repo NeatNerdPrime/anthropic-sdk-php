@@ -18,7 +18,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type MessageBatchCanceledResultShape from \Anthropic\Beta\Messages\Batches\MessageBatchCanceledResult
  * @phpstan-import-type MessageBatchExpiredResultShape from \Anthropic\Beta\Messages\Batches\MessageBatchExpiredResult
  *
- * @phpstan-type MessageBatchResultShape = MessageBatchSucceededResultShape|MessageBatchErroredResultShape|MessageBatchCanceledResultShape|MessageBatchExpiredResultShape
+ * @phpstan-type MessageBatchResultVariants = MessageBatchSucceededResult|MessageBatchErroredResult|MessageBatchCanceledResult|MessageBatchExpiredResult
+ * @phpstan-type MessageBatchResultShape = MessageBatchResultVariants|MessageBatchSucceededResultShape|MessageBatchErroredResultShape|MessageBatchCanceledResultShape|MessageBatchExpiredResultShape
  */
 final class MessageBatchResult implements ConverterSource
 {

@@ -13,28 +13,25 @@ use Anthropic\Messages\Batches\BatchCreateParams\Request\Params\System;
 use Anthropic\Messages\MessageParam;
 use Anthropic\Messages\Metadata;
 use Anthropic\Messages\Model;
-use Anthropic\Messages\TextBlockParam;
 use Anthropic\Messages\ThinkingConfigDisabled;
 use Anthropic\Messages\ThinkingConfigEnabled;
 use Anthropic\Messages\ThinkingConfigParam;
-use Anthropic\Messages\Tool;
-use Anthropic\Messages\ToolBash20250124;
 use Anthropic\Messages\ToolChoice;
 use Anthropic\Messages\ToolChoiceAny;
 use Anthropic\Messages\ToolChoiceAuto;
 use Anthropic\Messages\ToolChoiceNone;
 use Anthropic\Messages\ToolChoiceTool;
-use Anthropic\Messages\ToolTextEditor20250124;
-use Anthropic\Messages\ToolTextEditor20250429;
-use Anthropic\Messages\ToolTextEditor20250728;
 use Anthropic\Messages\ToolUnion;
-use Anthropic\Messages\WebSearchTool20250305;
 
 /**
  * Messages API creation parameters for the individual request.
  *
  * See the [Messages API reference](https://docs.claude.com/en/api/messages) for full documentation on available parameters.
  *
+ * @phpstan-import-type SystemVariants from \Anthropic\Messages\Batches\BatchCreateParams\Request\Params\System
+ * @phpstan-import-type ThinkingConfigParamVariants from \Anthropic\Messages\ThinkingConfigParam
+ * @phpstan-import-type ToolChoiceVariants from \Anthropic\Messages\ToolChoice
+ * @phpstan-import-type ToolUnionVariants from \Anthropic\Messages\ToolUnion
  * @phpstan-import-type MessageParamShape from \Anthropic\Messages\MessageParam
  * @phpstan-import-type MetadataShape from \Anthropic\Messages\Metadata
  * @phpstan-import-type SystemShape from \Anthropic\Messages\Batches\BatchCreateParams\Request\Params\System
@@ -44,8 +41,8 @@ use Anthropic\Messages\WebSearchTool20250305;
  *
  * @phpstan-type ParamsShape = array{
  *   maxTokens: int,
- *   messages: list<MessageParamShape>,
- *   model: Model|value-of<Model>,
+ *   messages: list<MessageParam|MessageParamShape>,
+ *   model: string|Model|value-of<Model>,
  *   metadata?: null|Metadata|MetadataShape,
  *   serviceTier?: null|ServiceTier|value-of<ServiceTier>,
  *   stopSequences?: list<string>|null,
@@ -132,7 +129,7 @@ final class Params implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @var value-of<Model> $model
+     * @var string|value-of<Model> $model
      */
     #[Required(enum: Model::class)]
     public string $model;
@@ -178,7 +175,7 @@ final class Params implements BaseModel
      *
      * A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
      *
-     * @var string|list<TextBlockParam>|null $system
+     * @var SystemVariants|null $system
      */
     #[Optional(union: System::class)]
     public string|array|null $system;
@@ -199,12 +196,16 @@ final class Params implements BaseModel
      * When enabled, responses include `thinking` content blocks showing Claude's thinking process before the final answer. Requires a minimum budget of 1,024 tokens and counts towards your `max_tokens` limit.
      *
      * See [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking) for details.
+     *
+     * @var ThinkingConfigParamVariants|null $thinking
      */
     #[Optional(union: ThinkingConfigParam::class)]
     public ThinkingConfigEnabled|ThinkingConfigDisabled|null $thinking;
 
     /**
      * How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
+     *
+     * @var ToolChoiceVariants|null $toolChoice
      */
     #[Optional('tool_choice', union: ToolChoice::class)]
     public ToolChoiceAuto|ToolChoiceAny|ToolChoiceTool|ToolChoiceNone|null $toolChoice;
@@ -272,7 +273,7 @@ final class Params implements BaseModel
      *
      * See our [guide](https://docs.claude.com/en/docs/tool-use) for more details.
      *
-     * @var list<Tool|ToolBash20250124|ToolTextEditor20250124|ToolTextEditor20250429|ToolTextEditor20250728|WebSearchTool20250305>|null $tools
+     * @var list<ToolUnionVariants>|null $tools
      */
     #[Optional(list: ToolUnion::class)]
     public ?array $tools;
@@ -321,8 +322,8 @@ final class Params implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<MessageParamShape> $messages
-     * @param Model|value-of<Model> $model
+     * @param list<MessageParam|MessageParamShape> $messages
+     * @param string|Model|value-of<Model> $model
      * @param Metadata|MetadataShape|null $metadata
      * @param ServiceTier|value-of<ServiceTier>|null $serviceTier
      * @param list<string>|null $stopSequences
@@ -433,7 +434,7 @@ final class Params implements BaseModel
      *
      * There is a limit of 100,000 messages in a single request.
      *
-     * @param list<MessageParamShape> $messages
+     * @param list<MessageParam|MessageParamShape> $messages
      */
     public function withMessages(array $messages): self
     {
@@ -446,7 +447,7 @@ final class Params implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @param Model|value-of<Model> $model
+     * @param string|Model|value-of<Model> $model
      */
     public function withModel(Model|string $model): self
     {

@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type WebSearchToolResultBlockParamContentVariants from \Anthropic\Messages\WebSearchToolResultBlockParamContent
  * @phpstan-import-type WebSearchToolResultBlockParamContentShape from \Anthropic\Messages\WebSearchToolResultBlockParamContent
  * @phpstan-import-type CacheControlEphemeralShape from \Anthropic\Messages\CacheControlEphemeral
  *
@@ -29,7 +30,7 @@ final class WebSearchToolResultBlockParam implements BaseModel
     #[Required]
     public string $type = 'web_search_tool_result';
 
-    /** @var list<WebSearchResultBlockParam>|WebSearchToolRequestError $content */
+    /** @var WebSearchToolResultBlockParamContentVariants $content */
     #[Required(union: WebSearchToolResultBlockParamContent::class)]
     public array|WebSearchToolRequestError $content;
 

@@ -12,7 +12,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type TextBlockParamShape from \Anthropic\Messages\TextBlockParam
  * @phpstan-import-type ImageBlockParamShape from \Anthropic\Messages\ImageBlockParam
  *
- * @phpstan-type ContentBlockSourceContentShape = TextBlockParamShape|ImageBlockParamShape
+ * @phpstan-type ContentBlockSourceContentVariants = TextBlockParam|ImageBlockParam
+ * @phpstan-type ContentBlockSourceContentShape = ContentBlockSourceContentVariants|TextBlockParamShape|ImageBlockParamShape
  */
 final class ContentBlockSourceContent implements ConverterSource
 {

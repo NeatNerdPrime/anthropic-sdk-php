@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type KeepVariants from \Anthropic\Beta\Messages\BetaClearThinking20251015Edit\Keep
  * @phpstan-import-type KeepShape from \Anthropic\Beta\Messages\BetaClearThinking20251015Edit\Keep
  *
  * @phpstan-type BetaClearThinking20251015EditShape = array{
@@ -28,7 +29,7 @@ final class BetaClearThinking20251015Edit implements BaseModel
     /**
      * Number of most recent assistant turns to keep thinking blocks for. Older turns will have their thinking blocks removed.
      *
-     * @var 'all'|BetaThinkingTurns|BetaAllThinkingTurns|null $keep
+     * @var KeepVariants|null $keep
      */
     #[Optional]
     public string|BetaThinkingTurns|BetaAllThinkingTurns|null $keep;

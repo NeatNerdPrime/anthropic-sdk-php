@@ -11,6 +11,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaMessageParam\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaMessageParam\Content
  *
  * @phpstan-type BetaMessageParamShape = array{
@@ -22,9 +23,7 @@ final class BetaMessageParam implements BaseModel
     /** @use SdkModel<BetaMessageParamShape> */
     use SdkModel;
 
-    /**
-     * @var string|list<BetaTextBlockParam|BetaImageBlockParam|BetaRequestDocumentBlock|BetaSearchResultBlockParam|BetaThinkingBlockParam|BetaRedactedThinkingBlockParam|BetaToolUseBlockParam|BetaToolResultBlockParam|BetaServerToolUseBlockParam|BetaWebSearchToolResultBlockParam|BetaWebFetchToolResultBlockParam|BetaCodeExecutionToolResultBlockParam|BetaBashCodeExecutionToolResultBlockParam|BetaTextEditorCodeExecutionToolResultBlockParam|BetaToolSearchToolResultBlockParam|BetaMCPToolUseBlockParam|BetaRequestMCPToolResultBlockParam|BetaContainerUploadBlockParam> $content
-     */
+    /** @var ContentVariants $content */
     #[Required(union: Content::class)]
     public string|array $content;
 

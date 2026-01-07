@@ -14,12 +14,16 @@ use Anthropic\Core\Exceptions\APIException;
 use Anthropic\Page;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface FilesRawContract
 {
     /**
      * @api
      *
      * @param array<string,mixed>|FileListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Page<FileMetadata>>
      *
@@ -27,7 +31,7 @@ interface FilesRawContract
      */
     public function list(
         array|FileListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -35,6 +39,7 @@ interface FilesRawContract
      *
      * @param string $fileID ID of the File
      * @param array<string,mixed>|FileDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<DeletedFile>
      *
@@ -43,7 +48,7 @@ interface FilesRawContract
     public function delete(
         string $fileID,
         array|FileDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -51,6 +56,7 @@ interface FilesRawContract
      *
      * @param string $fileID ID of the File
      * @param array<string,mixed>|FileRetrieveMetadataParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<FileMetadata>
      *
@@ -59,6 +65,6 @@ interface FilesRawContract
     public function retrieveMetadata(
         string $fileID,
         array|FileRetrieveMetadataParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 }

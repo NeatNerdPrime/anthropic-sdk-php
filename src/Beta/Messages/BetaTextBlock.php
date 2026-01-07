@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type BetaTextCitationVariants from \Anthropic\Beta\Messages\BetaTextCitation
  * @phpstan-import-type BetaTextCitationShape from \Anthropic\Beta\Messages\BetaTextCitation
  *
  * @phpstan-type BetaTextBlockShape = array{
@@ -29,7 +30,7 @@ final class BetaTextBlock implements BaseModel
      *
      * The type of citation returned will depend on the type of document being cited. Citing a PDF results in `page_location`, plain text results in `char_location`, and content document results in `content_block_location`.
      *
-     * @var list<BetaCitationCharLocation|BetaCitationPageLocation|BetaCitationContentBlockLocation|BetaCitationsWebSearchResultLocation|BetaCitationSearchResultLocation>|null $citations
+     * @var list<BetaTextCitationVariants>|null $citations
      */
     #[Required(list: BetaTextCitation::class)]
     public ?array $citations;

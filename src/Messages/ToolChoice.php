@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type ToolChoiceToolShape from \Anthropic\Messages\ToolChoiceTool
  * @phpstan-import-type ToolChoiceNoneShape from \Anthropic\Messages\ToolChoiceNone
  *
- * @phpstan-type ToolChoiceShape = ToolChoiceAutoShape|ToolChoiceAnyShape|ToolChoiceToolShape|ToolChoiceNoneShape
+ * @phpstan-type ToolChoiceVariants = ToolChoiceAuto|ToolChoiceAny|ToolChoiceTool|ToolChoiceNone
+ * @phpstan-type ToolChoiceShape = ToolChoiceVariants|ToolChoiceAutoShape|ToolChoiceAnyShape|ToolChoiceToolShape|ToolChoiceNoneShape
  */
 final class ToolChoice implements ConverterSource
 {

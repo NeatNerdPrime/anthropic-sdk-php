@@ -18,7 +18,8 @@ use Anthropic\Messages\URLPDFSource;
  * @phpstan-import-type ContentBlockSourceShape from \Anthropic\Messages\ContentBlockSource
  * @phpstan-import-type URLPDFSourceShape from \Anthropic\Messages\URLPDFSource
  *
- * @phpstan-type SourceShape = Base64PDFSourceShape|PlainTextSourceShape|ContentBlockSourceShape|URLPDFSourceShape
+ * @phpstan-type SourceVariants = Base64PDFSource|PlainTextSource|ContentBlockSource|URLPDFSource
+ * @phpstan-type SourceShape = SourceVariants|Base64PDFSourceShape|PlainTextSourceShape|ContentBlockSourceShape|URLPDFSourceShape
  */
 final class Source implements ConverterSource
 {

@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type BetaTextCitationParamVariants from \Anthropic\Beta\Messages\BetaTextCitationParam
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  * @phpstan-import-type BetaTextCitationParamShape from \Anthropic\Beta\Messages\BetaTextCitationParam
  *
@@ -38,9 +39,7 @@ final class BetaTextBlockParam implements BaseModel
     #[Optional('cache_control', nullable: true)]
     public ?BetaCacheControlEphemeral $cacheControl;
 
-    /**
-     * @var list<BetaCitationCharLocationParam|BetaCitationPageLocationParam|BetaCitationContentBlockLocationParam|BetaCitationWebSearchResultLocationParam|BetaCitationSearchResultLocationParam>|null $citations
-     */
+    /** @var list<BetaTextCitationParamVariants>|null $citations */
     #[Optional(list: BetaTextCitationParam::class, nullable: true)]
     public ?array $citations;
 

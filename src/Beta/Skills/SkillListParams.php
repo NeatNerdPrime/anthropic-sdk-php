@@ -19,7 +19,7 @@ use Anthropic\Core\Contracts\BaseModel;
  *   limit?: int|null,
  *   page?: string|null,
  *   source?: string|null,
- *   betas?: list<AnthropicBeta|value-of<AnthropicBeta>>|null,
+ *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>|null,
  * }
  */
 final class SkillListParams implements BaseModel
@@ -57,7 +57,7 @@ final class SkillListParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @var list<value-of<AnthropicBeta>>|null $betas
+     * @var list<string|value-of<AnthropicBeta>>|null $betas
      */
     #[Optional(list: AnthropicBeta::class)]
     public ?array $betas;
@@ -72,7 +72,7 @@ final class SkillListParams implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>>|null $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>>|null $betas
      */
     public static function with(
         ?int $limit = null,
@@ -134,7 +134,7 @@ final class SkillListParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>> $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>> $betas
      */
     public function withBetas(array $betas): self
     {

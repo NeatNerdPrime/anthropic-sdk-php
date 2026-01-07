@@ -17,7 +17,8 @@ use Anthropic\Messages\TextBlockParam;
  *
  * @phpstan-import-type TextBlockParamShape from \Anthropic\Messages\TextBlockParam
  *
- * @phpstan-type SystemShape = string|list<TextBlockParamShape>
+ * @phpstan-type SystemVariants = string|list<TextBlockParam>
+ * @phpstan-type SystemShape = SystemVariants|list<TextBlockParamShape>
  */
 final class System implements ConverterSource
 {

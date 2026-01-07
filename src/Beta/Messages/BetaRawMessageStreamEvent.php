@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaRawContentBlockDeltaEventShape from \Anthropic\Beta\Messages\BetaRawContentBlockDeltaEvent
  * @phpstan-import-type BetaRawContentBlockStopEventShape from \Anthropic\Beta\Messages\BetaRawContentBlockStopEvent
  *
- * @phpstan-type BetaRawMessageStreamEventShape = BetaRawMessageStartEventShape|BetaRawMessageDeltaEventShape|BetaRawMessageStopEventShape|BetaRawContentBlockStartEventShape|BetaRawContentBlockDeltaEventShape|BetaRawContentBlockStopEventShape
+ * @phpstan-type BetaRawMessageStreamEventVariants = BetaRawMessageStartEvent|BetaRawMessageDeltaEvent|BetaRawMessageStopEvent|BetaRawContentBlockStartEvent|BetaRawContentBlockDeltaEvent|BetaRawContentBlockStopEvent
+ * @phpstan-type BetaRawMessageStreamEventShape = BetaRawMessageStreamEventVariants|BetaRawMessageStartEventShape|BetaRawMessageDeltaEventShape|BetaRawMessageStopEventShape|BetaRawContentBlockStartEventShape|BetaRawContentBlockDeltaEventShape|BetaRawContentBlockStopEventShape
  */
 final class BetaRawMessageStreamEvent implements ConverterSource
 {

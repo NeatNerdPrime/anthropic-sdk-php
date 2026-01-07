@@ -12,7 +12,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaCodeExecutionToolResultErrorParamShape from \Anthropic\Beta\Messages\BetaCodeExecutionToolResultErrorParam
  * @phpstan-import-type BetaCodeExecutionResultBlockParamShape from \Anthropic\Beta\Messages\BetaCodeExecutionResultBlockParam
  *
- * @phpstan-type BetaCodeExecutionToolResultBlockParamContentShape = BetaCodeExecutionToolResultErrorParamShape|BetaCodeExecutionResultBlockParamShape
+ * @phpstan-type BetaCodeExecutionToolResultBlockParamContentVariants = BetaCodeExecutionToolResultErrorParam|BetaCodeExecutionResultBlockParam
+ * @phpstan-type BetaCodeExecutionToolResultBlockParamContentShape = BetaCodeExecutionToolResultBlockParamContentVariants|BetaCodeExecutionToolResultErrorParamShape|BetaCodeExecutionResultBlockParamShape
  */
 final class BetaCodeExecutionToolResultBlockParamContent implements ConverterSource
 {

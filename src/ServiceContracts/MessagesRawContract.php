@@ -19,12 +19,16 @@ use Anthropic\Messages\RawMessageStartEvent;
 use Anthropic\Messages\RawMessageStopEvent;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface MessagesRawContract
 {
     /**
      * @api
      *
      * @param array<string,mixed>|MessageCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Message>
      *
@@ -32,13 +36,14 @@ interface MessagesRawContract
      */
     public function create(
         array|MessageCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
      * @api
      *
      * @param array<string,mixed>|MessageCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<BaseStream<RawMessageStartEvent|RawMessageDeltaEvent|RawMessageStopEvent|RawContentBlockStartEvent|RawContentBlockDeltaEvent|RawContentBlockStopEvent,>,>
      *
@@ -46,13 +51,14 @@ interface MessagesRawContract
      */
     public function createStream(
         array|MessageCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
      * @api
      *
      * @param array<string,mixed>|MessageCountTokensParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageTokensCount>
      *
@@ -60,6 +66,6 @@ interface MessagesRawContract
      */
     public function countTokens(
         array|MessageCountTokensParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 }

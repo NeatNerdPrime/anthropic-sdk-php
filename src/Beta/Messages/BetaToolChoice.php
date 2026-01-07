@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaToolChoiceToolShape from \Anthropic\Beta\Messages\BetaToolChoiceTool
  * @phpstan-import-type BetaToolChoiceNoneShape from \Anthropic\Beta\Messages\BetaToolChoiceNone
  *
- * @phpstan-type BetaToolChoiceShape = BetaToolChoiceAutoShape|BetaToolChoiceAnyShape|BetaToolChoiceToolShape|BetaToolChoiceNoneShape
+ * @phpstan-type BetaToolChoiceVariants = BetaToolChoiceAuto|BetaToolChoiceAny|BetaToolChoiceTool|BetaToolChoiceNone
+ * @phpstan-type BetaToolChoiceShape = BetaToolChoiceVariants|BetaToolChoiceAutoShape|BetaToolChoiceAnyShape|BetaToolChoiceToolShape|BetaToolChoiceNoneShape
  */
 final class BetaToolChoice implements ConverterSource
 {

@@ -13,7 +13,8 @@ use Anthropic\Core\Conversion\ListOf;
  * @phpstan-import-type BetaWebSearchToolResultErrorShape from \Anthropic\Beta\Messages\BetaWebSearchToolResultError
  * @phpstan-import-type BetaWebSearchResultBlockShape from \Anthropic\Beta\Messages\BetaWebSearchResultBlock
  *
- * @phpstan-type BetaWebSearchToolResultBlockContentShape = BetaWebSearchToolResultErrorShape|list<BetaWebSearchResultBlockShape>
+ * @phpstan-type BetaWebSearchToolResultBlockContentVariants = BetaWebSearchToolResultError|list<BetaWebSearchResultBlock>
+ * @phpstan-type BetaWebSearchToolResultBlockContentShape = BetaWebSearchToolResultBlockContentVariants|BetaWebSearchToolResultErrorShape|list<BetaWebSearchResultBlockShape>
  */
 final class BetaWebSearchToolResultBlockContent implements ConverterSource
 {

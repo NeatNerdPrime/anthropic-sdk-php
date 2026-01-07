@@ -15,7 +15,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type ThinkingDeltaShape from \Anthropic\Messages\ThinkingDelta
  * @phpstan-import-type SignatureDeltaShape from \Anthropic\Messages\SignatureDelta
  *
- * @phpstan-type RawContentBlockDeltaShape = TextDeltaShape|InputJSONDeltaShape|CitationsDeltaShape|ThinkingDeltaShape|SignatureDeltaShape
+ * @phpstan-type RawContentBlockDeltaVariants = TextDelta|InputJSONDelta|CitationsDelta|ThinkingDelta|SignatureDelta
+ * @phpstan-type RawContentBlockDeltaShape = RawContentBlockDeltaVariants|TextDeltaShape|InputJSONDeltaShape|CitationsDeltaShape|ThinkingDeltaShape|SignatureDeltaShape
  */
 final class RawContentBlockDelta implements ConverterSource
 {

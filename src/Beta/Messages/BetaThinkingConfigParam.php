@@ -18,7 +18,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaThinkingConfigEnabledShape from \Anthropic\Beta\Messages\BetaThinkingConfigEnabled
  * @phpstan-import-type BetaThinkingConfigDisabledShape from \Anthropic\Beta\Messages\BetaThinkingConfigDisabled
  *
- * @phpstan-type BetaThinkingConfigParamShape = BetaThinkingConfigEnabledShape|BetaThinkingConfigDisabledShape
+ * @phpstan-type BetaThinkingConfigParamVariants = BetaThinkingConfigEnabled|BetaThinkingConfigDisabled
+ * @phpstan-type BetaThinkingConfigParamShape = BetaThinkingConfigParamVariants|BetaThinkingConfigEnabledShape|BetaThinkingConfigDisabledShape
  */
 final class BetaThinkingConfigParam implements ConverterSource
 {

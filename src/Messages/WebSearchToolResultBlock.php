@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type WebSearchToolResultBlockContentVariants from \Anthropic\Messages\WebSearchToolResultBlockContent
  * @phpstan-import-type WebSearchToolResultBlockContentShape from \Anthropic\Messages\WebSearchToolResultBlockContent
  *
  * @phpstan-type WebSearchToolResultBlockShape = array{
@@ -26,7 +27,7 @@ final class WebSearchToolResultBlock implements BaseModel
     #[Required]
     public string $type = 'web_search_tool_result';
 
-    /** @var WebSearchToolResultError|list<WebSearchResultBlock> $content */
+    /** @var WebSearchToolResultBlockContentVariants $content */
     #[Required(union: WebSearchToolResultBlockContent::class)]
     public WebSearchToolResultError|array $content;
 

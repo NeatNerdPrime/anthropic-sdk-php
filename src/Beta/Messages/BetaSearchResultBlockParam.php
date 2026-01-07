@@ -15,7 +15,7 @@ use Anthropic\Core\Contracts\BaseModel;
  * @phpstan-import-type BetaCitationsConfigParamShape from \Anthropic\Beta\Messages\BetaCitationsConfigParam
  *
  * @phpstan-type BetaSearchResultBlockParamShape = array{
- *   content: list<BetaTextBlockParamShape>,
+ *   content: list<BetaTextBlockParam|BetaTextBlockParamShape>,
  *   source: string,
  *   title: string,
  *   type: 'search_result',
@@ -78,7 +78,7 @@ final class BetaSearchResultBlockParam implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<BetaTextBlockParamShape> $content
+     * @param list<BetaTextBlockParam|BetaTextBlockParamShape> $content
      * @param BetaCacheControlEphemeral|BetaCacheControlEphemeralShape|null $cacheControl
      * @param BetaCitationsConfigParam|BetaCitationsConfigParamShape|null $citations
      */
@@ -102,7 +102,7 @@ final class BetaSearchResultBlockParam implements BaseModel
     }
 
     /**
-     * @param list<BetaTextBlockParamShape> $content
+     * @param list<BetaTextBlockParam|BetaTextBlockParamShape> $content
      */
     public function withContent(array $content): self
     {

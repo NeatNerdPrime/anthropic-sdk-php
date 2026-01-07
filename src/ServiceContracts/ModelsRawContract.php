@@ -12,6 +12,9 @@ use Anthropic\Models\ModelRetrieveParams;
 use Anthropic\Page;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface ModelsRawContract
 {
     /**
@@ -19,6 +22,7 @@ interface ModelsRawContract
      *
      * @param string $modelID model identifier or alias
      * @param array<string,mixed>|ModelRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<ModelInfo>
      *
@@ -27,13 +31,14 @@ interface ModelsRawContract
     public function retrieve(
         string $modelID,
         array|ModelRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
      * @api
      *
      * @param array<string,mixed>|ModelListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Page<ModelInfo>>
      *
@@ -41,6 +46,6 @@ interface ModelsRawContract
      */
     public function list(
         array|ModelListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 }

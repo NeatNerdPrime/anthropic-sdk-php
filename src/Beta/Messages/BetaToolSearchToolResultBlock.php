@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaToolSearchToolResultBlock\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaToolSearchToolResultBlock\Content
  *
  * @phpstan-type BetaToolSearchToolResultBlockShape = array{
@@ -24,6 +25,7 @@ final class BetaToolSearchToolResultBlock implements BaseModel
     #[Required]
     public string $type = 'tool_search_tool_result';
 
+    /** @var ContentVariants $content */
     #[Required]
     public BetaToolSearchToolResultError|BetaToolSearchToolSearchResultBlock $content;
 

@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaMCPToolResultBlock\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaMCPToolResultBlock\Content
  *
  * @phpstan-type BetaMCPToolResultBlockShape = array{
@@ -28,7 +29,7 @@ final class BetaMCPToolResultBlock implements BaseModel
     #[Required]
     public string $type = 'mcp_tool_result';
 
-    /** @var string|list<BetaTextBlock> $content */
+    /** @var ContentVariants $content */
     #[Required(union: Content::class)]
     public string|array $content;
 

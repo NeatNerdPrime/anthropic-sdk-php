@@ -11,6 +11,7 @@ use Anthropic\Core\Contracts\BaseModel;
 use Anthropic\Messages\DocumentBlockParam\Source;
 
 /**
+ * @phpstan-import-type SourceVariants from \Anthropic\Messages\DocumentBlockParam\Source
  * @phpstan-import-type SourceShape from \Anthropic\Messages\DocumentBlockParam\Source
  * @phpstan-import-type CacheControlEphemeralShape from \Anthropic\Messages\CacheControlEphemeral
  * @phpstan-import-type CitationsConfigParamShape from \Anthropic\Messages\CitationsConfigParam
@@ -33,6 +34,7 @@ final class DocumentBlockParam implements BaseModel
     #[Required]
     public string $type = 'document';
 
+    /** @var SourceVariants $source */
     #[Required(union: Source::class)]
     public Base64PDFSource|PlainTextSource|ContentBlockSource|URLPDFSource $source;
 

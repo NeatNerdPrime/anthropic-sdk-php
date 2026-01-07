@@ -12,8 +12,9 @@ use Anthropic\Messages\Message;
 use Anthropic\Messages\MessageCountTokensParams;
 use Anthropic\Messages\MessageCreateParams;
 use Anthropic\Messages\MessageCreateParams\ServiceTier;
-use Anthropic\Messages\MessageParam\Role;
+use Anthropic\Messages\MessageParam;
 use Anthropic\Messages\MessageTokensCount;
+use Anthropic\Messages\Metadata;
 use Anthropic\Messages\Model;
 use Anthropic\Messages\RawContentBlockDeltaEvent;
 use Anthropic\Messages\RawContentBlockStartEvent;
@@ -26,6 +27,17 @@ use Anthropic\RequestOptions;
 use Anthropic\ServiceContracts\MessagesRawContract;
 use Anthropic\SSEStream;
 
+/**
+ * @phpstan-import-type SystemShape from \Anthropic\Messages\MessageCountTokensParams\System
+ * @phpstan-import-type MessageCountTokensToolShape from \Anthropic\Messages\MessageCountTokensTool
+ * @phpstan-import-type MessageParamShape from \Anthropic\Messages\MessageParam
+ * @phpstan-import-type MetadataShape from \Anthropic\Messages\Metadata
+ * @phpstan-import-type SystemShape from \Anthropic\Messages\MessageCreateParams\System as SystemShape1
+ * @phpstan-import-type ThinkingConfigParamShape from \Anthropic\Messages\ThinkingConfigParam
+ * @phpstan-import-type ToolChoiceShape from \Anthropic\Messages\ToolChoice
+ * @phpstan-import-type ToolUnionShape from \Anthropic\Messages\ToolUnion
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 final class MessagesRawService implements MessagesRawContract
 {
     // @phpstan-ignore-next-line
@@ -45,26 +57,20 @@ final class MessagesRawService implements MessagesRawContract
      *
      * @param array{
      *   maxTokens: int,
-     *   messages: list<array{
-     *     content: string|list<array<string,mixed>>, role: 'user'|'assistant'|Role
-     *   }>,
-     *   model: string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model,
-     *   metadata?: array{userID?: string|null},
-     *   serviceTier?: 'auto'|'standard_only'|ServiceTier,
+     *   messages: list<MessageParam|MessageParamShape>,
+     *   model: string|Model|value-of<Model>,
+     *   metadata?: Metadata|MetadataShape,
+     *   serviceTier?: ServiceTier|value-of<ServiceTier>,
      *   stopSequences?: list<string>,
-     *   system?: string|list<array{
-     *     text: string,
-     *     type?: 'text',
-     *     cacheControl?: array<string,mixed>|null,
-     *     citations?: list<array<string,mixed>>|null,
-     *   }>,
+     *   system?: SystemShape1,
      *   temperature?: float,
-     *   thinking?: array<string,mixed>,
-     *   toolChoice?: array<string,mixed>,
-     *   tools?: list<array<string,mixed>>,
+     *   thinking?: ThinkingConfigParamShape,
+     *   toolChoice?: ToolChoiceShape,
+     *   tools?: list<ToolUnionShape>,
      *   topK?: int,
      *   topP?: float,
      * }|MessageCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Message>
      *
@@ -72,7 +78,7 @@ final class MessagesRawService implements MessagesRawContract
      */
     public function create(
         array|MessageCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = MessageCreateParams::parseRequest(
             $params,
@@ -94,26 +100,20 @@ final class MessagesRawService implements MessagesRawContract
      *
      * @param array{
      *   maxTokens: int,
-     *   messages: list<array{
-     *     content: string|list<array<string,mixed>>, role: 'user'|'assistant'|Role
-     *   }>,
-     *   model: string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model,
-     *   metadata?: array{userID?: string|null},
-     *   serviceTier?: 'auto'|'standard_only'|ServiceTier,
+     *   messages: list<MessageParam|MessageParamShape>,
+     *   model: string|Model|value-of<Model>,
+     *   metadata?: Metadata|MetadataShape,
+     *   serviceTier?: ServiceTier|value-of<ServiceTier>,
      *   stopSequences?: list<string>,
-     *   system?: string|list<array{
-     *     text: string,
-     *     type?: 'text',
-     *     cacheControl?: array<string,mixed>|null,
-     *     citations?: list<array<string,mixed>>|null,
-     *   }>,
+     *   system?: SystemShape1,
      *   temperature?: float,
-     *   thinking?: array<string,mixed>,
-     *   toolChoice?: array<string,mixed>,
-     *   tools?: list<array<string,mixed>>,
+     *   thinking?: ThinkingConfigParamShape,
+     *   toolChoice?: ToolChoiceShape,
+     *   tools?: list<ToolUnionShape>,
      *   topK?: int,
      *   topP?: float,
      * }|MessageCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<BaseStream<RawMessageStartEvent|RawMessageDeltaEvent|RawMessageStopEvent|RawContentBlockStartEvent|RawContentBlockDeltaEvent|RawContentBlockStopEvent,>,>
      *
@@ -121,7 +121,7 @@ final class MessagesRawService implements MessagesRawContract
      */
     public function createStream(
         array|MessageCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = MessageCreateParams::parseRequest(
             $params,
@@ -151,20 +151,14 @@ final class MessagesRawService implements MessagesRawContract
      * Learn more about token counting in our [user guide](https://docs.claude.com/en/docs/build-with-claude/token-counting)
      *
      * @param array{
-     *   messages: list<array{
-     *     content: string|list<array<string,mixed>>, role: 'user'|'assistant'|Role
-     *   }>,
-     *   model: string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model,
-     *   system?: string|list<array{
-     *     text: string,
-     *     type?: 'text',
-     *     cacheControl?: array<string,mixed>|null,
-     *     citations?: list<array<string,mixed>>|null,
-     *   }>,
-     *   thinking?: array<string,mixed>,
-     *   toolChoice?: array<string,mixed>,
-     *   tools?: list<array<string,mixed>>,
+     *   messages: list<MessageParam|MessageParamShape>,
+     *   model: string|Model|value-of<Model>,
+     *   system?: SystemShape,
+     *   thinking?: ThinkingConfigParamShape,
+     *   toolChoice?: ToolChoiceShape,
+     *   tools?: list<MessageCountTokensToolShape>,
      * }|MessageCountTokensParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageTokensCount>
      *
@@ -172,7 +166,7 @@ final class MessagesRawService implements MessagesRawContract
      */
     public function countTokens(
         array|MessageCountTokensParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = MessageCountTokensParams::parseRequest(
             $params,

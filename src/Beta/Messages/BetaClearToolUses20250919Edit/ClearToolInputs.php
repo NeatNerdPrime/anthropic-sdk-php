@@ -12,7 +12,8 @@ use Anthropic\Core\Conversion\ListOf;
 /**
  * Whether to clear all tool inputs (bool) or specific tool inputs to clear (list).
  *
- * @phpstan-type ClearToolInputsShape = bool|list<string>
+ * @phpstan-type ClearToolInputsVariants = bool|list<string>
+ * @phpstan-type ClearToolInputsShape = ClearToolInputsVariants
  */
 final class ClearToolInputs implements ConverterSource
 {

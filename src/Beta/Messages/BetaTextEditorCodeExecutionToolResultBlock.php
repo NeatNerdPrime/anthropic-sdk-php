@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaTextEditorCodeExecutionToolResultBlock\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaTextEditorCodeExecutionToolResultBlock\Content
  *
  * @phpstan-type BetaTextEditorCodeExecutionToolResultBlockShape = array{
@@ -26,6 +27,7 @@ final class BetaTextEditorCodeExecutionToolResultBlock implements BaseModel
     #[Required]
     public string $type = 'text_editor_code_execution_tool_result';
 
+    /** @var ContentVariants $content */
     #[Required]
     public BetaTextEditorCodeExecutionToolResultError|BetaTextEditorCodeExecutionViewResultBlock|BetaTextEditorCodeExecutionCreateResultBlock|BetaTextEditorCodeExecutionStrReplaceResultBlock $content;
 

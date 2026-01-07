@@ -23,7 +23,7 @@ use Anthropic\Core\Contracts\BaseModel;
  *   mcpServerName: string,
  *   type: 'mcp_toolset',
  *   cacheControl?: null|BetaCacheControlEphemeral|BetaCacheControlEphemeralShape,
- *   configs?: array<string,BetaMCPToolConfigShape>|null,
+ *   configs?: array<string,BetaMCPToolConfig|BetaMCPToolConfigShape>|null,
  *   defaultConfig?: null|BetaMCPToolDefaultConfig|BetaMCPToolDefaultConfigShape,
  * }
  */
@@ -87,7 +87,7 @@ final class BetaMCPToolset implements BaseModel
      * You must use named parameters to construct any parameters with a default value.
      *
      * @param BetaCacheControlEphemeral|BetaCacheControlEphemeralShape|null $cacheControl
-     * @param array<string,BetaMCPToolConfigShape>|null $configs
+     * @param array<string,BetaMCPToolConfig|BetaMCPToolConfigShape>|null $configs
      * @param BetaMCPToolDefaultConfig|BetaMCPToolDefaultConfigShape|null $defaultConfig
      */
     public static function with(
@@ -135,7 +135,7 @@ final class BetaMCPToolset implements BaseModel
     /**
      * Configuration overrides for specific tools, keyed by tool name.
      *
-     * @param array<string,BetaMCPToolConfigShape>|null $configs
+     * @param array<string,BetaMCPToolConfig|BetaMCPToolConfigShape>|null $configs
      */
     public function withConfigs(?array $configs): self
     {

@@ -14,7 +14,9 @@ use Anthropic\Core\Contracts\BaseModel;
  * @phpstan-import-type BetaSkillShape from \Anthropic\Beta\Messages\BetaSkill
  *
  * @phpstan-type BetaContainerShape = array{
- *   id: string, expiresAt: \DateTimeInterface, skills: list<BetaSkillShape>|null
+ *   id: string,
+ *   expiresAt: \DateTimeInterface,
+ *   skills: list<BetaSkill|BetaSkillShape>|null,
  * }
  */
 final class BetaContainer implements BaseModel
@@ -66,7 +68,7 @@ final class BetaContainer implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<BetaSkillShape>|null $skills
+     * @param list<BetaSkill|BetaSkillShape>|null $skills
      */
     public static function with(
         string $id,
@@ -107,7 +109,7 @@ final class BetaContainer implements BaseModel
     /**
      * Skills loaded in the container.
      *
-     * @param list<BetaSkillShape>|null $skills
+     * @param list<BetaSkill|BetaSkillShape>|null $skills
      */
     public function withSkills(?array $skills): self
     {

@@ -11,6 +11,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaRequestMCPToolResultBlockParam\Content
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaRequestMCPToolResultBlockParam\Content
  *
@@ -40,7 +41,7 @@ final class BetaRequestMCPToolResultBlockParam implements BaseModel
     #[Optional('cache_control', nullable: true)]
     public ?BetaCacheControlEphemeral $cacheControl;
 
-    /** @var string|list<BetaTextBlockParam>|null $content */
+    /** @var ContentVariants|null $content */
     #[Optional(union: Content::class)]
     public string|array|null $content;
 

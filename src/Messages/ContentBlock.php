@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type ServerToolUseBlockShape from \Anthropic\Messages\ServerToolUseBlock
  * @phpstan-import-type WebSearchToolResultBlockShape from \Anthropic\Messages\WebSearchToolResultBlock
  *
- * @phpstan-type ContentBlockShape = TextBlockShape|ThinkingBlockShape|RedactedThinkingBlockShape|ToolUseBlockShape|ServerToolUseBlockShape|WebSearchToolResultBlockShape
+ * @phpstan-type ContentBlockVariants = TextBlock|ThinkingBlock|RedactedThinkingBlock|ToolUseBlock|ServerToolUseBlock|WebSearchToolResultBlock
+ * @phpstan-type ContentBlockShape = ContentBlockVariants|TextBlockShape|ThinkingBlockShape|RedactedThinkingBlockShape|ToolUseBlockShape|ServerToolUseBlockShape|WebSearchToolResultBlockShape
  */
 final class ContentBlock implements ConverterSource
 {

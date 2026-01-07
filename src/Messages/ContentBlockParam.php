@@ -22,7 +22,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type ServerToolUseBlockParamShape from \Anthropic\Messages\ServerToolUseBlockParam
  * @phpstan-import-type WebSearchToolResultBlockParamShape from \Anthropic\Messages\WebSearchToolResultBlockParam
  *
- * @phpstan-type ContentBlockParamShape = TextBlockParamShape|ImageBlockParamShape|DocumentBlockParamShape|SearchResultBlockParamShape|ThinkingBlockParamShape|RedactedThinkingBlockParamShape|ToolUseBlockParamShape|ToolResultBlockParamShape|ServerToolUseBlockParamShape|WebSearchToolResultBlockParamShape
+ * @phpstan-type ContentBlockParamVariants = TextBlockParam|ImageBlockParam|DocumentBlockParam|SearchResultBlockParam|ThinkingBlockParam|RedactedThinkingBlockParam|ToolUseBlockParam|ToolResultBlockParam|ServerToolUseBlockParam|WebSearchToolResultBlockParam
+ * @phpstan-type ContentBlockParamShape = ContentBlockParamVariants|TextBlockParamShape|ImageBlockParamShape|DocumentBlockParamShape|SearchResultBlockParamShape|ThinkingBlockParamShape|RedactedThinkingBlockParamShape|ToolUseBlockParamShape|ToolResultBlockParamShape|ServerToolUseBlockParamShape|WebSearchToolResultBlockParamShape
  */
 final class ContentBlockParam implements ConverterSource
 {

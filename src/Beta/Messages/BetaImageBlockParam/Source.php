@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaURLImageSourceShape from \Anthropic\Beta\Messages\BetaURLImageSource
  * @phpstan-import-type BetaFileImageSourceShape from \Anthropic\Beta\Messages\BetaFileImageSource
  *
- * @phpstan-type SourceShape = BetaBase64ImageSourceShape|BetaURLImageSourceShape|BetaFileImageSourceShape
+ * @phpstan-type SourceVariants = BetaBase64ImageSource|BetaURLImageSource|BetaFileImageSource
+ * @phpstan-type SourceShape = SourceVariants|BetaBase64ImageSourceShape|BetaURLImageSourceShape|BetaFileImageSourceShape
  */
 final class Source implements ConverterSource
 {

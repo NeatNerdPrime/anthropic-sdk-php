@@ -12,6 +12,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type CallerVariants from \Anthropic\Beta\Messages\BetaServerToolUseBlockParam\Caller
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  * @phpstan-import-type CallerShape from \Anthropic\Beta\Messages\BetaServerToolUseBlockParam\Caller
  *
@@ -52,6 +53,8 @@ final class BetaServerToolUseBlockParam implements BaseModel
 
     /**
      * Tool invocation directly from the model.
+     *
+     * @var CallerVariants|null $caller
      */
     #[Optional(union: Caller::class)]
     public BetaDirectCaller|BetaServerToolCaller|null $caller;

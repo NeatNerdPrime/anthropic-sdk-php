@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type BetaErrorVariants from \Anthropic\Beta\BetaError
  * @phpstan-import-type BetaErrorShape from \Anthropic\Beta\BetaError
  *
  * @phpstan-type BetaErrorResponseShape = array{
@@ -24,6 +25,7 @@ final class BetaErrorResponse implements BaseModel
     #[Required]
     public string $type = 'error';
 
+    /** @var BetaErrorVariants $error */
     #[Required(union: BetaError::class)]
     public BetaInvalidRequestError|BetaAuthenticationError|BetaBillingError|BetaPermissionError|BetaNotFoundError|BetaRateLimitError|BetaGatewayTimeoutError|BetaAPIError|BetaOverloadedError $error;
 

@@ -7,7 +7,7 @@ namespace Anthropic\Services\Beta\Messages;
 use Anthropic\Beta\AnthropicBeta;
 use Anthropic\Beta\Messages\Batches\BatchCancelParams;
 use Anthropic\Beta\Messages\Batches\BatchCreateParams;
-use Anthropic\Beta\Messages\Batches\BatchCreateParams\Request\Params\ServiceTier;
+use Anthropic\Beta\Messages\Batches\BatchCreateParams\Request;
 use Anthropic\Beta\Messages\Batches\BatchDeleteParams;
 use Anthropic\Beta\Messages\Batches\BatchListParams;
 use Anthropic\Beta\Messages\Batches\BatchResultsParams;
@@ -21,11 +21,14 @@ use Anthropic\Core\Contracts\BaseStream;
 use Anthropic\Core\Exceptions\APIException;
 use Anthropic\Core\Util;
 use Anthropic\JsonLStream;
-use Anthropic\Messages\Model;
 use Anthropic\Page;
 use Anthropic\RequestOptions;
 use Anthropic\ServiceContracts\Beta\Messages\BatchesRawContract;
 
+/**
+ * @phpstan-import-type RequestShape from \Anthropic\Beta\Messages\Batches\BatchCreateParams\Request
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 final class BatchesRawService implements BatchesRawContract
 {
     // @phpstan-ignore-next-line
@@ -44,32 +47,10 @@ final class BatchesRawService implements BatchesRawContract
      * Learn more about the Message Batches API in our [user guide](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
      *
      * @param array{
-     *   requests: list<array{
-     *     customID: string,
-     *     params: array{
-     *       maxTokens: int,
-     *       messages: list<array<string,mixed>>,
-     *       model: string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model,
-     *       container?: string|array<string,mixed>|null,
-     *       contextManagement?: array<string,mixed>|null,
-     *       mcpServers?: list<array<string,mixed>>,
-     *       metadata?: array<string,mixed>,
-     *       outputConfig?: array<string,mixed>,
-     *       outputFormat?: array<string,mixed>|null,
-     *       serviceTier?: 'auto'|'standard_only'|ServiceTier,
-     *       stopSequences?: list<string>,
-     *       stream?: bool,
-     *       system?: string|list<array<string,mixed>>,
-     *       temperature?: float,
-     *       thinking?: array<string,mixed>,
-     *       toolChoice?: array<string,mixed>,
-     *       tools?: list<array<string,mixed>>,
-     *       topK?: int,
-     *       topP?: float,
-     *     },
-     *   }>,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   requests: list<Request|RequestShape>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|BatchCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -77,7 +58,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function create(
         array|BatchCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchCreateParams::parseRequest(
             $params,
@@ -114,8 +95,9 @@ final class BatchesRawService implements BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|BatchRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -124,7 +106,7 @@ final class BatchesRawService implements BatchesRawContract
     public function retrieve(
         string $messageBatchID,
         array|BatchRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchRetrieveParams::parseRequest(
             $params,
@@ -158,8 +140,9 @@ final class BatchesRawService implements BatchesRawContract
      *   afterID?: string,
      *   beforeID?: string,
      *   limit?: int,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|BatchListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Page<MessageBatch>>
      *
@@ -167,7 +150,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function list(
         array|BatchListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchListParams::parseRequest(
             $params,
@@ -210,8 +193,9 @@ final class BatchesRawService implements BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|BatchDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<DeletedMessageBatch>
      *
@@ -220,7 +204,7 @@ final class BatchesRawService implements BatchesRawContract
     public function delete(
         string $messageBatchID,
         array|BatchDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchDeleteParams::parseRequest(
             $params,
@@ -254,8 +238,9 @@ final class BatchesRawService implements BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|BatchCancelParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -264,7 +249,7 @@ final class BatchesRawService implements BatchesRawContract
     public function cancel(
         string $messageBatchID,
         array|BatchCancelParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchCancelParams::parseRequest(
             $params,
@@ -298,8 +283,9 @@ final class BatchesRawService implements BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|BatchResultsParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatchIndividualResponse>
      *
@@ -308,7 +294,7 @@ final class BatchesRawService implements BatchesRawContract
     public function results(
         string $messageBatchID,
         array|BatchResultsParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchResultsParams::parseRequest(
             $params,
@@ -336,8 +322,9 @@ final class BatchesRawService implements BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|BatchResultsParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<BaseStream<MessageBatchIndividualResponse>>
      *
@@ -346,7 +333,7 @@ final class BatchesRawService implements BatchesRawContract
     public function resultsStream(
         string $messageBatchID,
         array|BatchResultsParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchResultsParams::parseRequest(
             $params,

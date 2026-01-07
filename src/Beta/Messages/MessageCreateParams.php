@@ -23,6 +23,11 @@ use Anthropic\Messages\Model;
  *
  * @see Anthropic\Services\Beta\MessagesService::create()
  *
+ * @phpstan-import-type ContainerVariants from \Anthropic\Beta\Messages\MessageCreateParams\Container
+ * @phpstan-import-type SystemVariants from \Anthropic\Beta\Messages\MessageCreateParams\System
+ * @phpstan-import-type BetaThinkingConfigParamVariants from \Anthropic\Beta\Messages\BetaThinkingConfigParam
+ * @phpstan-import-type BetaToolChoiceVariants from \Anthropic\Beta\Messages\BetaToolChoice
+ * @phpstan-import-type BetaToolUnionVariants from \Anthropic\Beta\Messages\BetaToolUnion
  * @phpstan-import-type BetaMessageParamShape from \Anthropic\Beta\Messages\BetaMessageParam
  * @phpstan-import-type ContainerShape from \Anthropic\Beta\Messages\MessageCreateParams\Container
  * @phpstan-import-type BetaContextManagementConfigShape from \Anthropic\Beta\Messages\BetaContextManagementConfig
@@ -37,11 +42,11 @@ use Anthropic\Messages\Model;
  *
  * @phpstan-type MessageCreateParamsShape = array{
  *   maxTokens: int,
- *   messages: list<BetaMessageParamShape>,
- *   model: Model|value-of<Model>,
+ *   messages: list<BetaMessageParam|BetaMessageParamShape>,
+ *   model: string|Model|value-of<Model>,
  *   container?: ContainerShape|null,
  *   contextManagement?: null|BetaContextManagementConfig|BetaContextManagementConfigShape,
- *   mcpServers?: list<BetaRequestMCPServerURLDefinitionShape>|null,
+ *   mcpServers?: list<BetaRequestMCPServerURLDefinition|BetaRequestMCPServerURLDefinitionShape>|null,
  *   metadata?: null|BetaMetadata|BetaMetadataShape,
  *   outputConfig?: null|BetaOutputConfig|BetaOutputConfigShape,
  *   outputFormat?: null|BetaJSONOutputFormat|BetaJSONOutputFormatShape,
@@ -54,7 +59,7 @@ use Anthropic\Messages\Model;
  *   tools?: list<BetaToolUnionShape>|null,
  *   topK?: int|null,
  *   topP?: float|null,
- *   betas?: list<AnthropicBeta|value-of<AnthropicBeta>>|null,
+ *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>|null,
  * }
  */
 final class MessageCreateParams implements BaseModel
@@ -131,13 +136,15 @@ final class MessageCreateParams implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @var value-of<Model> $model
+     * @var string|value-of<Model> $model
      */
     #[Required(enum: Model::class)]
     public string $model;
 
     /**
      * Container identifier for reuse across requests.
+     *
+     * @var ContainerVariants|null $container
      */
     #[Optional(nullable: true)]
     public string|BetaContainerParams|null $container;
@@ -203,7 +210,7 @@ final class MessageCreateParams implements BaseModel
      *
      * A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
      *
-     * @var string|list<BetaTextBlockParam>|null $system
+     * @var SystemVariants|null $system
      */
     #[Optional(union: System::class)]
     public string|array|null $system;
@@ -224,12 +231,16 @@ final class MessageCreateParams implements BaseModel
      * When enabled, responses include `thinking` content blocks showing Claude's thinking process before the final answer. Requires a minimum budget of 1,024 tokens and counts towards your `max_tokens` limit.
      *
      * See [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking) for details.
+     *
+     * @var BetaThinkingConfigParamVariants|null $thinking
      */
     #[Optional(union: BetaThinkingConfigParam::class)]
     public BetaThinkingConfigEnabled|BetaThinkingConfigDisabled|null $thinking;
 
     /**
      * How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
+     *
+     * @var BetaToolChoiceVariants|null $toolChoice
      */
     #[Optional('tool_choice', union: BetaToolChoice::class)]
     public BetaToolChoiceAuto|BetaToolChoiceAny|BetaToolChoiceTool|BetaToolChoiceNone|null $toolChoice;
@@ -297,7 +308,7 @@ final class MessageCreateParams implements BaseModel
      *
      * See our [guide](https://docs.claude.com/en/docs/tool-use) for more details.
      *
-     * @var list<BetaTool|BetaToolBash20241022|BetaToolBash20250124|BetaCodeExecutionTool20250522|BetaCodeExecutionTool20250825|BetaToolComputerUse20241022|BetaMemoryTool20250818|BetaToolComputerUse20250124|BetaToolTextEditor20241022|BetaToolComputerUse20251124|BetaToolTextEditor20250124|BetaToolTextEditor20250429|BetaToolTextEditor20250728|BetaWebSearchTool20250305|BetaWebFetchTool20250910|BetaToolSearchToolBm25_20251119|BetaToolSearchToolRegex20251119|BetaMCPToolset>|null $tools
+     * @var list<BetaToolUnionVariants>|null $tools
      */
     #[Optional(list: BetaToolUnion::class)]
     public ?array $tools;
@@ -325,7 +336,7 @@ final class MessageCreateParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @var list<value-of<AnthropicBeta>>|null $betas
+     * @var list<string|value-of<AnthropicBeta>>|null $betas
      */
     #[Optional(list: AnthropicBeta::class)]
     public ?array $betas;
@@ -354,11 +365,11 @@ final class MessageCreateParams implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<BetaMessageParamShape> $messages
-     * @param Model|value-of<Model> $model
+     * @param list<BetaMessageParam|BetaMessageParamShape> $messages
+     * @param string|Model|value-of<Model> $model
      * @param ContainerShape|null $container
      * @param BetaContextManagementConfig|BetaContextManagementConfigShape|null $contextManagement
-     * @param list<BetaRequestMCPServerURLDefinitionShape>|null $mcpServers
+     * @param list<BetaRequestMCPServerURLDefinition|BetaRequestMCPServerURLDefinitionShape>|null $mcpServers
      * @param BetaMetadata|BetaMetadataShape|null $metadata
      * @param BetaOutputConfig|BetaOutputConfigShape|null $outputConfig
      * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat
@@ -368,7 +379,7 @@ final class MessageCreateParams implements BaseModel
      * @param BetaThinkingConfigParamShape|null $thinking
      * @param BetaToolChoiceShape|null $toolChoice
      * @param list<BetaToolUnionShape>|null $tools
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>>|null $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>>|null $betas
      */
     public static function with(
         int $maxTokens,
@@ -482,7 +493,7 @@ final class MessageCreateParams implements BaseModel
      *
      * There is a limit of 100,000 messages in a single request.
      *
-     * @param list<BetaMessageParamShape> $messages
+     * @param list<BetaMessageParam|BetaMessageParamShape> $messages
      */
     public function withMessages(array $messages): self
     {
@@ -495,7 +506,7 @@ final class MessageCreateParams implements BaseModel
     /**
      * The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
      *
-     * @param Model|value-of<Model> $model
+     * @param string|Model|value-of<Model> $model
      */
     public function withModel(Model|string $model): self
     {
@@ -538,7 +549,7 @@ final class MessageCreateParams implements BaseModel
     /**
      * MCP servers to be utilized in this request.
      *
-     * @param list<BetaRequestMCPServerURLDefinitionShape> $mcpServers
+     * @param list<BetaRequestMCPServerURLDefinition|BetaRequestMCPServerURLDefinitionShape> $mcpServers
      */
     public function withMCPServers(array $mcpServers): self
     {
@@ -788,7 +799,7 @@ final class MessageCreateParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>> $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>> $betas
      */
     public function withBetas(array $betas): self
     {

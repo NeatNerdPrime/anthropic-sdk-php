@@ -21,6 +21,9 @@ use Anthropic\PageCursor;
 use Anthropic\RequestOptions;
 use Anthropic\ServiceContracts\Beta\Skills\VersionsRawContract;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 final class VersionsRawService implements VersionsRawContract
 {
     // @phpstan-ignore-next-line
@@ -39,8 +42,9 @@ final class VersionsRawService implements VersionsRawContract
      * The format and length of IDs may change over time.
      * @param array{
      *   files?: list<string>|null,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|VersionCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<VersionNewResponse>
      *
@@ -49,7 +53,7 @@ final class VersionsRawService implements VersionsRawContract
     public function create(
         string $skillID,
         array|VersionCreateParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = VersionCreateParams::parseRequest(
             $params,
@@ -92,9 +96,9 @@ final class VersionsRawService implements VersionsRawContract
      *
      * Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
      * @param array{
-     *   skillID: string,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   skillID: string, betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|VersionRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<VersionGetResponse>
      *
@@ -103,7 +107,7 @@ final class VersionsRawService implements VersionsRawContract
     public function retrieve(
         string $version,
         array|VersionRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = VersionRetrieveParams::parseRequest(
             $params,
@@ -139,8 +143,9 @@ final class VersionsRawService implements VersionsRawContract
      * @param array{
      *   limit?: int|null,
      *   page?: string|null,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|VersionListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<PageCursor<VersionListResponse>>
      *
@@ -149,7 +154,7 @@ final class VersionsRawService implements VersionsRawContract
     public function list(
         string $skillID,
         array|VersionListParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = VersionListParams::parseRequest(
             $params,
@@ -187,9 +192,9 @@ final class VersionsRawService implements VersionsRawContract
      *
      * Each version is identified by a Unix epoch timestamp (e.g., "1759178010641129").
      * @param array{
-     *   skillID: string,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   skillID: string, betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|VersionDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<VersionDeleteResponse>
      *
@@ -198,7 +203,7 @@ final class VersionsRawService implements VersionsRawContract
     public function delete(
         string $version,
         array|VersionDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = VersionDeleteParams::parseRequest(
             $params,

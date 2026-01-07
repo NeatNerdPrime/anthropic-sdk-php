@@ -21,7 +21,9 @@ use Anthropic\Messages\Batches\BatchCreateParams\Request;
  *
  * @phpstan-import-type RequestShape from \Anthropic\Messages\Batches\BatchCreateParams\Request
  *
- * @phpstan-type BatchCreateParamsShape = array{requests: list<RequestShape>}
+ * @phpstan-type BatchCreateParamsShape = array{
+ *   requests: list<Request|RequestShape>
+ * }
  */
 final class BatchCreateParams implements BaseModel
 {
@@ -61,7 +63,7 @@ final class BatchCreateParams implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<RequestShape> $requests
+     * @param list<Request|RequestShape> $requests
      */
     public static function with(array $requests): self
     {
@@ -75,7 +77,7 @@ final class BatchCreateParams implements BaseModel
     /**
      * List of requests for prompt completion. Each is an individual request to create a Message.
      *
-     * @param list<RequestShape> $requests
+     * @param list<Request|RequestShape> $requests
      */
     public function withRequests(array $requests): self
     {

@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaThinkingTurnsShape from \Anthropic\Beta\Messages\BetaThinkingTurns
  * @phpstan-import-type BetaAllThinkingTurnsShape from \Anthropic\Beta\Messages\BetaAllThinkingTurns
  *
- * @phpstan-type KeepShape = 'all'|BetaThinkingTurnsShape|BetaAllThinkingTurnsShape
+ * @phpstan-type KeepVariants = 'all'|BetaThinkingTurns|BetaAllThinkingTurns
+ * @phpstan-type KeepShape = KeepVariants|BetaThinkingTurnsShape|BetaAllThinkingTurnsShape
  */
 final class Keep implements ConverterSource
 {

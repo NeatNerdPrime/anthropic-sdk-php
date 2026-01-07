@@ -15,7 +15,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type CitationWebSearchResultLocationParamShape from \Anthropic\Messages\CitationWebSearchResultLocationParam
  * @phpstan-import-type CitationSearchResultLocationParamShape from \Anthropic\Messages\CitationSearchResultLocationParam
  *
- * @phpstan-type TextCitationParamShape = CitationCharLocationParamShape|CitationPageLocationParamShape|CitationContentBlockLocationParamShape|CitationWebSearchResultLocationParamShape|CitationSearchResultLocationParamShape
+ * @phpstan-type TextCitationParamVariants = CitationCharLocationParam|CitationPageLocationParam|CitationContentBlockLocationParam|CitationWebSearchResultLocationParam|CitationSearchResultLocationParam
+ * @phpstan-type TextCitationParamShape = TextCitationParamVariants|CitationCharLocationParamShape|CitationPageLocationParamShape|CitationContentBlockLocationParamShape|CitationWebSearchResultLocationParamShape|CitationSearchResultLocationParamShape
  */
 final class TextCitationParam implements ConverterSource
 {

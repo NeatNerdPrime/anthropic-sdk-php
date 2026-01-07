@@ -24,8 +24,8 @@ use Anthropic\Core\Contracts\BaseModel;
  * @phpstan-import-type RequestShape from \Anthropic\Beta\Messages\Batches\BatchCreateParams\Request
  *
  * @phpstan-type BatchCreateParamsShape = array{
- *   requests: list<RequestShape>,
- *   betas?: list<AnthropicBeta|value-of<AnthropicBeta>>|null,
+ *   requests: list<Request|RequestShape>,
+ *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>|null,
  * }
  */
 final class BatchCreateParams implements BaseModel
@@ -45,7 +45,7 @@ final class BatchCreateParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @var list<value-of<AnthropicBeta>>|null $betas
+     * @var list<string|value-of<AnthropicBeta>>|null $betas
      */
     #[Optional(list: AnthropicBeta::class)]
     public ?array $betas;
@@ -74,8 +74,8 @@ final class BatchCreateParams implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<RequestShape> $requests
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>>|null $betas
+     * @param list<Request|RequestShape> $requests
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>>|null $betas
      */
     public static function with(array $requests, ?array $betas = null): self
     {
@@ -91,7 +91,7 @@ final class BatchCreateParams implements BaseModel
     /**
      * List of requests for prompt completion. Each is an individual request to create a Message.
      *
-     * @param list<RequestShape> $requests
+     * @param list<Request|RequestShape> $requests
      */
     public function withRequests(array $requests): self
     {
@@ -104,7 +104,7 @@ final class BatchCreateParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>> $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>> $betas
      */
     public function withBetas(array $betas): self
     {

@@ -19,12 +19,16 @@ use Anthropic\Core\Exceptions\APIException;
 use Anthropic\Page;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface BatchesRawContract
 {
     /**
      * @api
      *
      * @param array<string,mixed>|BatchCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -32,7 +36,7 @@ interface BatchesRawContract
      */
     public function create(
         array|BatchCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -40,6 +44,7 @@ interface BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array<string,mixed>|BatchRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -48,13 +53,14 @@ interface BatchesRawContract
     public function retrieve(
         string $messageBatchID,
         array|BatchRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
      * @api
      *
      * @param array<string,mixed>|BatchListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Page<MessageBatch>>
      *
@@ -62,7 +68,7 @@ interface BatchesRawContract
      */
     public function list(
         array|BatchListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -70,6 +76,7 @@ interface BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array<string,mixed>|BatchDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<DeletedMessageBatch>
      *
@@ -78,7 +85,7 @@ interface BatchesRawContract
     public function delete(
         string $messageBatchID,
         array|BatchDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -86,6 +93,7 @@ interface BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array<string,mixed>|BatchCancelParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -94,7 +102,7 @@ interface BatchesRawContract
     public function cancel(
         string $messageBatchID,
         array|BatchCancelParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -102,6 +110,7 @@ interface BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array<string,mixed>|BatchResultsParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatchIndividualResponse>
      *
@@ -110,7 +119,7 @@ interface BatchesRawContract
     public function results(
         string $messageBatchID,
         array|BatchResultsParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -118,6 +127,7 @@ interface BatchesRawContract
      *
      * @param string $messageBatchID ID of the Message Batch
      * @param array<string,mixed>|BatchResultsParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<BaseStream<MessageBatchIndividualResponse>>
      *
@@ -126,6 +136,6 @@ interface BatchesRawContract
     public function resultsStream(
         string $messageBatchID,
         array|BatchResultsParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 }

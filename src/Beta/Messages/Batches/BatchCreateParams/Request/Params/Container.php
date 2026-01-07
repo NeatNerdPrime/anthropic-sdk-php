@@ -14,7 +14,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  *
  * @phpstan-import-type BetaContainerParamsShape from \Anthropic\Beta\Messages\BetaContainerParams
  *
- * @phpstan-type ContainerShape = string|BetaContainerParamsShape
+ * @phpstan-type ContainerVariants = string|BetaContainerParams
+ * @phpstan-type ContainerShape = ContainerVariants|BetaContainerParamsShape
  */
 final class Container implements ConverterSource
 {

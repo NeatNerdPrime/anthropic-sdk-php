@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaWebFetchToolResultBlock\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaWebFetchToolResultBlock\Content
  *
  * @phpstan-type BetaWebFetchToolResultBlockShape = array{
@@ -24,6 +25,7 @@ final class BetaWebFetchToolResultBlock implements BaseModel
     #[Required]
     public string $type = 'web_fetch_tool_result';
 
+    /** @var ContentVariants $content */
     #[Required]
     public BetaWebFetchToolResultErrorBlock|BetaWebFetchBlock $content;
 

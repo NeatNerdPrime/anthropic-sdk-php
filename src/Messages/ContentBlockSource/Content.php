@@ -9,11 +9,14 @@ use Anthropic\Core\Conversion\Contracts\Converter;
 use Anthropic\Core\Conversion\Contracts\ConverterSource;
 use Anthropic\Core\Conversion\ListOf;
 use Anthropic\Messages\ContentBlockSourceContent;
+use Anthropic\Messages\ImageBlockParam;
+use Anthropic\Messages\TextBlockParam;
 
 /**
  * @phpstan-import-type ContentBlockSourceContentShape from \Anthropic\Messages\ContentBlockSourceContent
  *
- * @phpstan-type ContentShape = string|list<ContentBlockSourceContentShape>
+ * @phpstan-type ContentVariants = string|list<TextBlockParam|ImageBlockParam>
+ * @phpstan-type ContentShape = ContentVariants|list<ContentBlockSourceContentShape>
  */
 final class Content implements ConverterSource
 {

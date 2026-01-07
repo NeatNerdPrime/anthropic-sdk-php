@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaBashCodeExecutionToolResultBlockParam\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaBashCodeExecutionToolResultBlockParam\Content
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  *
@@ -29,6 +30,7 @@ final class BetaBashCodeExecutionToolResultBlockParam implements BaseModel
     #[Required]
     public string $type = 'bash_code_execution_tool_result';
 
+    /** @var ContentVariants $content */
     #[Required]
     public BetaBashCodeExecutionToolResultErrorParam|BetaBashCodeExecutionResultBlockParam $content;
 

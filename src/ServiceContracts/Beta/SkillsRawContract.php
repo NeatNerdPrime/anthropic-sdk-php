@@ -17,12 +17,16 @@ use Anthropic\Core\Exceptions\APIException;
 use Anthropic\PageCursor;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface SkillsRawContract
 {
     /**
      * @api
      *
      * @param array<string,mixed>|SkillCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<SkillNewResponse>
      *
@@ -30,7 +34,7 @@ interface SkillsRawContract
      */
     public function create(
         array|SkillCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -40,6 +44,7 @@ interface SkillsRawContract
      *
      * The format and length of IDs may change over time.
      * @param array<string,mixed>|SkillRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<SkillGetResponse>
      *
@@ -48,13 +53,14 @@ interface SkillsRawContract
     public function retrieve(
         string $skillID,
         array|SkillRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
      * @api
      *
      * @param array<string,mixed>|SkillListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<PageCursor<SkillListResponse>>
      *
@@ -62,7 +68,7 @@ interface SkillsRawContract
      */
     public function list(
         array|SkillListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 
     /**
@@ -72,6 +78,7 @@ interface SkillsRawContract
      *
      * The format and length of IDs may change over time.
      * @param array<string,mixed>|SkillDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<SkillDeleteResponse>
      *
@@ -80,6 +87,6 @@ interface SkillsRawContract
     public function delete(
         string $skillID,
         array|SkillDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse;
 }

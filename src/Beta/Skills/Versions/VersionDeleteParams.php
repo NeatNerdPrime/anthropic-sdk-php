@@ -17,7 +17,8 @@ use Anthropic\Core\Contracts\BaseModel;
  * @see Anthropic\Services\Beta\Skills\VersionsService::delete()
  *
  * @phpstan-type VersionDeleteParamsShape = array{
- *   skillID: string, betas?: list<AnthropicBeta|value-of<AnthropicBeta>>|null
+ *   skillID: string,
+ *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>|null,
  * }
  */
 final class VersionDeleteParams implements BaseModel
@@ -37,7 +38,7 @@ final class VersionDeleteParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @var list<value-of<AnthropicBeta>>|null $betas
+     * @var list<string|value-of<AnthropicBeta>>|null $betas
      */
     #[Optional(list: AnthropicBeta::class)]
     public ?array $betas;
@@ -66,7 +67,7 @@ final class VersionDeleteParams implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>>|null $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>>|null $betas
      */
     public static function with(string $skillID, ?array $betas = null): self
     {
@@ -95,7 +96,7 @@ final class VersionDeleteParams implements BaseModel
     /**
      * Optional header to specify the beta version(s) you want to use.
      *
-     * @param list<AnthropicBeta|value-of<AnthropicBeta>> $betas
+     * @param list<string|AnthropicBeta|value-of<AnthropicBeta>> $betas
      */
     public function withBetas(array $betas): self
     {

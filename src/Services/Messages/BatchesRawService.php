@@ -11,16 +11,19 @@ use Anthropic\Core\Exceptions\APIException;
 use Anthropic\Core\Util;
 use Anthropic\JsonLStream;
 use Anthropic\Messages\Batches\BatchCreateParams;
-use Anthropic\Messages\Batches\BatchCreateParams\Request\Params\ServiceTier;
+use Anthropic\Messages\Batches\BatchCreateParams\Request;
 use Anthropic\Messages\Batches\BatchListParams;
 use Anthropic\Messages\Batches\DeletedMessageBatch;
 use Anthropic\Messages\Batches\MessageBatch;
 use Anthropic\Messages\Batches\MessageBatchIndividualResponse;
-use Anthropic\Messages\Model;
 use Anthropic\Page;
 use Anthropic\RequestOptions;
 use Anthropic\ServiceContracts\Messages\BatchesRawContract;
 
+/**
+ * @phpstan-import-type RequestShape from \Anthropic\Messages\Batches\BatchCreateParams\Request
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 final class BatchesRawService implements BatchesRawContract
 {
     // @phpstan-ignore-next-line
@@ -38,27 +41,8 @@ final class BatchesRawService implements BatchesRawContract
      *
      * Learn more about the Message Batches API in our [user guide](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
      *
-     * @param array{
-     *   requests: list<array{
-     *     customID: string,
-     *     params: array{
-     *       maxTokens: int,
-     *       messages: list<array<string,mixed>>,
-     *       model: string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model,
-     *       metadata?: array<string,mixed>,
-     *       serviceTier?: 'auto'|'standard_only'|ServiceTier,
-     *       stopSequences?: list<string>,
-     *       stream?: bool,
-     *       system?: string|list<array<string,mixed>>,
-     *       temperature?: float,
-     *       thinking?: array<string,mixed>,
-     *       toolChoice?: array<string,mixed>,
-     *       tools?: list<array<string,mixed>>,
-     *       topK?: int,
-     *       topP?: float,
-     *     },
-     *   }>,
-     * }|BatchCreateParams $params
+     * @param array{requests: list<Request|RequestShape>}|BatchCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -66,7 +50,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function create(
         array|BatchCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchCreateParams::parseRequest(
             $params,
@@ -91,6 +75,7 @@ final class BatchesRawService implements BatchesRawContract
      * Learn more about the Message Batches API in our [user guide](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
      *
      * @param string $messageBatchID ID of the Message Batch
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -98,7 +83,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function retrieve(
         string $messageBatchID,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null
     ): BaseResponse {
         // @phpstan-ignore-next-line return.type
         return $this->client->request(
@@ -119,6 +104,7 @@ final class BatchesRawService implements BatchesRawContract
      * @param array{
      *   afterID?: string, beforeID?: string, limit?: int
      * }|BatchListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Page<MessageBatch>>
      *
@@ -126,7 +112,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function list(
         array|BatchListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = BatchListParams::parseRequest(
             $params,
@@ -157,6 +143,7 @@ final class BatchesRawService implements BatchesRawContract
      * Learn more about the Message Batches API in our [user guide](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
      *
      * @param string $messageBatchID ID of the Message Batch
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<DeletedMessageBatch>
      *
@@ -164,7 +151,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function delete(
         string $messageBatchID,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null
     ): BaseResponse {
         // @phpstan-ignore-next-line return.type
         return $this->client->request(
@@ -185,6 +172,7 @@ final class BatchesRawService implements BatchesRawContract
      * Learn more about the Message Batches API in our [user guide](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
      *
      * @param string $messageBatchID ID of the Message Batch
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatch>
      *
@@ -192,7 +180,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function cancel(
         string $messageBatchID,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null
     ): BaseResponse {
         // @phpstan-ignore-next-line return.type
         return $this->client->request(
@@ -213,6 +201,7 @@ final class BatchesRawService implements BatchesRawContract
      * Learn more about the Message Batches API in our [user guide](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
      *
      * @param string $messageBatchID ID of the Message Batch
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<MessageBatchIndividualResponse>
      *
@@ -220,7 +209,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function results(
         string $messageBatchID,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null
     ): BaseResponse {
         // @phpstan-ignore-next-line return.type
         return $this->client->request(
@@ -236,6 +225,7 @@ final class BatchesRawService implements BatchesRawContract
      * @api
      *
      * @param string $messageBatchID ID of the Message Batch
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<BaseStream<MessageBatchIndividualResponse>>
      *
@@ -243,7 +233,7 @@ final class BatchesRawService implements BatchesRawContract
      */
     public function resultsStream(
         string $messageBatchID,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null
     ): BaseResponse {
         // @phpstan-ignore-next-line return.type
         return $this->client->request(

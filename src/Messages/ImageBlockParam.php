@@ -11,6 +11,7 @@ use Anthropic\Core\Contracts\BaseModel;
 use Anthropic\Messages\ImageBlockParam\Source;
 
 /**
+ * @phpstan-import-type SourceVariants from \Anthropic\Messages\ImageBlockParam\Source
  * @phpstan-import-type SourceShape from \Anthropic\Messages\ImageBlockParam\Source
  * @phpstan-import-type CacheControlEphemeralShape from \Anthropic\Messages\CacheControlEphemeral
  *
@@ -29,6 +30,7 @@ final class ImageBlockParam implements BaseModel
     #[Required]
     public string $type = 'image';
 
+    /** @var SourceVariants $source */
     #[Required(union: Source::class)]
     public Base64ImageSource|URLImageSource $source;
 

@@ -9,6 +9,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type TextCitationVariants from \Anthropic\Messages\TextCitation
  * @phpstan-import-type TextCitationShape from \Anthropic\Messages\TextCitation
  *
  * @phpstan-type TextBlockShape = array{
@@ -29,7 +30,7 @@ final class TextBlock implements BaseModel
      *
      * The type of citation returned will depend on the type of document being cited. Citing a PDF results in `page_location`, plain text results in `char_location`, and content document results in `content_block_location`.
      *
-     * @var list<CitationCharLocation|CitationPageLocation|CitationContentBlockLocation|CitationsWebSearchResultLocation|CitationsSearchResultLocation>|null $citations
+     * @var list<TextCitationVariants>|null $citations
      */
     #[Required(list: TextCitation::class)]
     public ?array $citations;

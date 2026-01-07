@@ -18,6 +18,9 @@ use Anthropic\Page;
 use Anthropic\RequestOptions;
 use Anthropic\ServiceContracts\Beta\FilesRawContract;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 final class FilesRawService implements FilesRawContract
 {
     // @phpstan-ignore-next-line
@@ -35,8 +38,9 @@ final class FilesRawService implements FilesRawContract
      *   afterID?: string,
      *   beforeID?: string,
      *   limit?: int,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|FileListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<Page<FileMetadata>>
      *
@@ -44,7 +48,7 @@ final class FilesRawService implements FilesRawContract
      */
     public function list(
         array|FileListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = FileListParams::parseRequest(
             $params,
@@ -83,8 +87,9 @@ final class FilesRawService implements FilesRawContract
      *
      * @param string $fileID ID of the File
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|FileDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<DeletedFile>
      *
@@ -93,7 +98,7 @@ final class FilesRawService implements FilesRawContract
     public function delete(
         string $fileID,
         array|FileDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = FileDeleteParams::parseRequest(
             $params,
@@ -123,8 +128,9 @@ final class FilesRawService implements FilesRawContract
      *
      * @param string $fileID ID of the File
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|FileRetrieveMetadataParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<FileMetadata>
      *
@@ -133,7 +139,7 @@ final class FilesRawService implements FilesRawContract
     public function retrieveMetadata(
         string $fileID,
         array|FileRetrieveMetadataParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = FileRetrieveMetadataParams::parseRequest(
             $params,

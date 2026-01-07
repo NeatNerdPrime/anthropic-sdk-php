@@ -6,11 +6,11 @@ namespace Anthropic\ServiceContracts;
 
 use Anthropic\Core\Contracts\BaseStream;
 use Anthropic\Core\Exceptions\APIException;
-use Anthropic\Messages\CacheControlEphemeral\TTL;
 use Anthropic\Messages\Message;
 use Anthropic\Messages\MessageCreateParams\ServiceTier;
-use Anthropic\Messages\MessageParam\Role;
+use Anthropic\Messages\MessageParam;
 use Anthropic\Messages\MessageTokensCount;
+use Anthropic\Messages\Metadata;
 use Anthropic\Messages\Model;
 use Anthropic\Messages\RawContentBlockDeltaEvent;
 use Anthropic\Messages\RawContentBlockStartEvent;
@@ -18,8 +18,25 @@ use Anthropic\Messages\RawContentBlockStopEvent;
 use Anthropic\Messages\RawMessageDeltaEvent;
 use Anthropic\Messages\RawMessageStartEvent;
 use Anthropic\Messages\RawMessageStopEvent;
+use Anthropic\Messages\ThinkingConfigDisabled;
+use Anthropic\Messages\ThinkingConfigEnabled;
+use Anthropic\Messages\ToolChoiceAny;
+use Anthropic\Messages\ToolChoiceAuto;
+use Anthropic\Messages\ToolChoiceNone;
+use Anthropic\Messages\ToolChoiceTool;
 use Anthropic\RequestOptions;
 
+/**
+ * @phpstan-import-type SystemShape from \Anthropic\Messages\MessageCountTokensParams\System
+ * @phpstan-import-type MessageCountTokensToolShape from \Anthropic\Messages\MessageCountTokensTool
+ * @phpstan-import-type MessageParamShape from \Anthropic\Messages\MessageParam
+ * @phpstan-import-type MetadataShape from \Anthropic\Messages\Metadata
+ * @phpstan-import-type SystemShape from \Anthropic\Messages\MessageCreateParams\System as SystemShape1
+ * @phpstan-import-type ThinkingConfigParamShape from \Anthropic\Messages\ThinkingConfigParam
+ * @phpstan-import-type ToolChoiceShape from \Anthropic\Messages\ToolChoice
+ * @phpstan-import-type ToolUnionShape from \Anthropic\Messages\ToolUnion
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 interface MessagesContract
 {
     /**
@@ -30,9 +47,7 @@ interface MessagesContract
      * Note that our models may stop _before_ reaching this maximum. This parameter only specifies the absolute maximum number of tokens to generate.
      *
      * Different models have different maximum values for this parameter.  See [models](https://docs.claude.com/en/docs/models-overview) for details.
-     * @param list<array{
-     *   content: string|list<array<string,mixed>>, role: 'user'|'assistant'|Role
-     * }> $messages Input messages.
+     * @param list<MessageParam|MessageParamShape> $messages Input messages.
      *
      * Our models are trained to operate on alternating `user` and `assistant` conversational turns. When creating a new `Message`, you specify the prior conversational turns with the `messages` parameter, and the model then generates the next `Message` in the conversation. Consecutive `user` or `assistant` turns in your request will be combined into a single turn.
      *
@@ -80,11 +95,9 @@ interface MessagesContract
      * Note that if you want to include a [system prompt](https://docs.claude.com/en/docs/system-prompts), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
      *
      * There is a limit of 100,000 messages in a single request.
-     * @param string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model $model The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
-     * @param array{
-     *   userID?: string|null
-     * } $metadata An object describing metadata about the request
-     * @param 'auto'|'standard_only'|ServiceTier $serviceTier Determines whether to use priority capacity (if available) or standard capacity for this request.
+     * @param string|Model|value-of<Model> $model The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+     * @param Metadata|MetadataShape $metadata an object describing metadata about the request
+     * @param ServiceTier|value-of<ServiceTier> $serviceTier Determines whether to use priority capacity (if available) or standard capacity for this request.
      *
      * Anthropic offers different levels of service for your API requests. See [service-tiers](https://docs.claude.com/en/api/service-tiers) for details.
      * @param list<string> $stopSequences Custom text sequences that will cause the model to stop generating.
@@ -92,12 +105,7 @@ interface MessagesContract
      * Our models will normally stop when they have naturally completed their turn, which will result in a response `stop_reason` of `"end_turn"`.
      *
      * If you want the model to stop generating when it encounters custom strings of text, you can use the `stop_sequences` parameter. If the model encounters one of the custom sequences, the response `stop_reason` value will be `"stop_sequence"` and the response `stop_sequence` value will contain the matched stop sequence.
-     * @param string|list<array{
-     *   text: string,
-     *   type?: 'text',
-     *   cacheControl?: array{type?: 'ephemeral', ttl?: '5m'|'1h'|TTL}|null,
-     *   citations?: list<array<string,mixed>>|null,
-     * }> $system System prompt.
+     * @param SystemShape1 $system System prompt.
      *
      * A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
      * @param float $temperature Amount of randomness injected into the response.
@@ -105,13 +113,13 @@ interface MessagesContract
      * Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
      *
      * Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-     * @param array<string,mixed> $thinking Configuration for enabling Claude's extended thinking.
+     * @param ThinkingConfigParamShape $thinking Configuration for enabling Claude's extended thinking.
      *
      * When enabled, responses include `thinking` content blocks showing Claude's thinking process before the final answer. Requires a minimum budget of 1,024 tokens and counts towards your `max_tokens` limit.
      *
      * See [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking) for details.
-     * @param array<string,mixed> $toolChoice How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
-     * @param list<array<string,mixed>> $tools Definitions of tools that the model may use.
+     * @param ToolChoiceShape $toolChoice How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
+     * @param list<ToolUnionShape> $tools Definitions of tools that the model may use.
      *
      * If you include `tools` in your API request, the model may return `tool_use` content blocks that represent the model's use of those tools. You can then run those tools using the tool input generated by the model and then optionally return results back to the model using `tool_result` content blocks.
      *
@@ -182,24 +190,25 @@ interface MessagesContract
      * In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`. You should either alter `temperature` or `top_p`, but not both.
      *
      * Recommended for advanced use cases only. You usually only need to use `temperature`.
+     * @param RequestOpts|null $requestOptions
      *
      * @throws APIException
      */
     public function create(
         int $maxTokens,
         array $messages,
-        string|Model $model,
-        ?array $metadata = null,
-        string|ServiceTier|null $serviceTier = null,
+        Model|string $model,
+        Metadata|array|null $metadata = null,
+        ServiceTier|string|null $serviceTier = null,
         ?array $stopSequences = null,
         string|array|null $system = null,
         ?float $temperature = null,
-        ?array $thinking = null,
-        ?array $toolChoice = null,
+        ThinkingConfigEnabled|array|ThinkingConfigDisabled|null $thinking = null,
+        ToolChoiceAuto|array|ToolChoiceAny|ToolChoiceTool|ToolChoiceNone|null $toolChoice = null,
         ?array $tools = null,
         ?int $topK = null,
         ?float $topP = null,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): Message;
 
     /**
@@ -210,9 +219,7 @@ interface MessagesContract
      * Note that our models may stop _before_ reaching this maximum. This parameter only specifies the absolute maximum number of tokens to generate.
      *
      * Different models have different maximum values for this parameter.  See [models](https://docs.claude.com/en/docs/models-overview) for details.
-     * @param list<array{
-     *   content: string|list<array<string,mixed>>, role: 'user'|'assistant'|Role
-     * }> $messages Input messages.
+     * @param list<MessageParam|MessageParamShape> $messages Input messages.
      *
      * Our models are trained to operate on alternating `user` and `assistant` conversational turns. When creating a new `Message`, you specify the prior conversational turns with the `messages` parameter, and the model then generates the next `Message` in the conversation. Consecutive `user` or `assistant` turns in your request will be combined into a single turn.
      *
@@ -260,11 +267,9 @@ interface MessagesContract
      * Note that if you want to include a [system prompt](https://docs.claude.com/en/docs/system-prompts), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
      *
      * There is a limit of 100,000 messages in a single request.
-     * @param string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model $model The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
-     * @param array{
-     *   userID?: string|null
-     * } $metadata An object describing metadata about the request
-     * @param 'auto'|'standard_only'|ServiceTier $serviceTier Determines whether to use priority capacity (if available) or standard capacity for this request.
+     * @param string|Model|value-of<Model> $model The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+     * @param Metadata|MetadataShape $metadata an object describing metadata about the request
+     * @param ServiceTier|value-of<ServiceTier> $serviceTier Determines whether to use priority capacity (if available) or standard capacity for this request.
      *
      * Anthropic offers different levels of service for your API requests. See [service-tiers](https://docs.claude.com/en/api/service-tiers) for details.
      * @param list<string> $stopSequences Custom text sequences that will cause the model to stop generating.
@@ -272,12 +277,7 @@ interface MessagesContract
      * Our models will normally stop when they have naturally completed their turn, which will result in a response `stop_reason` of `"end_turn"`.
      *
      * If you want the model to stop generating when it encounters custom strings of text, you can use the `stop_sequences` parameter. If the model encounters one of the custom sequences, the response `stop_reason` value will be `"stop_sequence"` and the response `stop_sequence` value will contain the matched stop sequence.
-     * @param string|list<array{
-     *   text: string,
-     *   type?: 'text',
-     *   cacheControl?: array{type?: 'ephemeral', ttl?: '5m'|'1h'|TTL}|null,
-     *   citations?: list<array<string,mixed>>|null,
-     * }> $system System prompt.
+     * @param SystemShape1 $system System prompt.
      *
      * A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
      * @param float $temperature Amount of randomness injected into the response.
@@ -285,13 +285,13 @@ interface MessagesContract
      * Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to `0.0` for analytical / multiple choice, and closer to `1.0` for creative and generative tasks.
      *
      * Note that even with `temperature` of `0.0`, the results will not be fully deterministic.
-     * @param array<string,mixed> $thinking Configuration for enabling Claude's extended thinking.
+     * @param ThinkingConfigParamShape $thinking Configuration for enabling Claude's extended thinking.
      *
      * When enabled, responses include `thinking` content blocks showing Claude's thinking process before the final answer. Requires a minimum budget of 1,024 tokens and counts towards your `max_tokens` limit.
      *
      * See [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking) for details.
-     * @param array<string,mixed> $toolChoice How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
-     * @param list<array<string,mixed>> $tools Definitions of tools that the model may use.
+     * @param ToolChoiceShape $toolChoice How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
+     * @param list<ToolUnionShape> $tools Definitions of tools that the model may use.
      *
      * If you include `tools` in your API request, the model may return `tool_use` content blocks that represent the model's use of those tools. You can then run those tools using the tool input generated by the model and then optionally return results back to the model using `tool_result` content blocks.
      *
@@ -362,6 +362,7 @@ interface MessagesContract
      * In nucleus sampling, we compute the cumulative distribution over all the options for each subsequent token in decreasing probability order and cut it off once it reaches a particular probability specified by `top_p`. You should either alter `temperature` or `top_p`, but not both.
      *
      * Recommended for advanced use cases only. You usually only need to use `temperature`.
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseStream<RawMessageStartEvent|RawMessageDeltaEvent|RawMessageStopEvent|RawContentBlockStartEvent|RawContentBlockDeltaEvent|RawContentBlockStopEvent,>
      *
@@ -370,26 +371,24 @@ interface MessagesContract
     public function createStream(
         int $maxTokens,
         array $messages,
-        string|Model $model,
-        ?array $metadata = null,
-        string|ServiceTier|null $serviceTier = null,
+        Model|string $model,
+        Metadata|array|null $metadata = null,
+        ServiceTier|string|null $serviceTier = null,
         ?array $stopSequences = null,
         string|array|null $system = null,
         ?float $temperature = null,
-        ?array $thinking = null,
-        ?array $toolChoice = null,
+        ThinkingConfigEnabled|array|ThinkingConfigDisabled|null $thinking = null,
+        ToolChoiceAuto|array|ToolChoiceAny|ToolChoiceTool|ToolChoiceNone|null $toolChoice = null,
         ?array $tools = null,
         ?int $topK = null,
         ?float $topP = null,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseStream;
 
     /**
      * @api
      *
-     * @param list<array{
-     *   content: string|list<array<string,mixed>>, role: 'user'|'assistant'|Role
-     * }> $messages Input messages.
+     * @param list<MessageParam|MessageParamShape> $messages Input messages.
      *
      * Our models are trained to operate on alternating `user` and `assistant` conversational turns. When creating a new `Message`, you specify the prior conversational turns with the `messages` parameter, and the model then generates the next `Message` in the conversation. Consecutive `user` or `assistant` turns in your request will be combined into a single turn.
      *
@@ -437,22 +436,17 @@ interface MessagesContract
      * Note that if you want to include a [system prompt](https://docs.claude.com/en/docs/system-prompts), you can use the top-level `system` parameter — there is no `"system"` role for input messages in the Messages API.
      *
      * There is a limit of 100,000 messages in a single request.
-     * @param string|'claude-opus-4-5-20251101'|'claude-opus-4-5'|'claude-3-7-sonnet-latest'|'claude-3-7-sonnet-20250219'|'claude-3-5-haiku-latest'|'claude-3-5-haiku-20241022'|'claude-haiku-4-5'|'claude-haiku-4-5-20251001'|'claude-sonnet-4-20250514'|'claude-sonnet-4-0'|'claude-4-sonnet-20250514'|'claude-sonnet-4-5'|'claude-sonnet-4-5-20250929'|'claude-opus-4-0'|'claude-opus-4-20250514'|'claude-4-opus-20250514'|'claude-opus-4-1-20250805'|'claude-3-opus-latest'|'claude-3-opus-20240229'|'claude-3-haiku-20240307'|Model $model The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
-     * @param string|list<array{
-     *   text: string,
-     *   type?: 'text',
-     *   cacheControl?: array{type?: 'ephemeral', ttl?: '5m'|'1h'|TTL}|null,
-     *   citations?: list<array<string,mixed>>|null,
-     * }> $system System prompt.
+     * @param string|Model|value-of<Model> $model The model that will complete your prompt.\n\nSee [models](https://docs.anthropic.com/en/docs/models-overview) for additional details and options.
+     * @param SystemShape $system System prompt.
      *
      * A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
-     * @param array<string,mixed> $thinking Configuration for enabling Claude's extended thinking.
+     * @param ThinkingConfigParamShape $thinking Configuration for enabling Claude's extended thinking.
      *
      * When enabled, responses include `thinking` content blocks showing Claude's thinking process before the final answer. Requires a minimum budget of 1,024 tokens and counts towards your `max_tokens` limit.
      *
      * See [extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking) for details.
-     * @param array<string,mixed> $toolChoice How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
-     * @param list<array<string,mixed>> $tools Definitions of tools that the model may use.
+     * @param ToolChoiceShape $toolChoice How the model should use the provided tools. The model can use a specific tool, any available tool, decide by itself, or not use tools at all.
+     * @param list<MessageCountTokensToolShape> $tools Definitions of tools that the model may use.
      *
      * If you include `tools` in your API request, the model may return `tool_use` content blocks that represent the model's use of those tools. You can then run those tools using the tool input generated by the model and then optionally return results back to the model using `tool_result` content blocks.
      *
@@ -513,16 +507,17 @@ interface MessagesContract
      * Tools can be used for workflows that include running client-side tools and functions, or more generally whenever you want the model to produce a particular JSON structure of output.
      *
      * See our [guide](https://docs.claude.com/en/docs/tool-use) for more details.
+     * @param RequestOpts|null $requestOptions
      *
      * @throws APIException
      */
     public function countTokens(
         array $messages,
-        string|Model $model,
+        Model|string $model,
         string|array|null $system = null,
-        ?array $thinking = null,
-        ?array $toolChoice = null,
+        ThinkingConfigEnabled|array|ThinkingConfigDisabled|null $thinking = null,
+        ToolChoiceAuto|array|ToolChoiceAny|ToolChoiceTool|ToolChoiceNone|null $toolChoice = null,
         ?array $tools = null,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): MessageTokensCount;
 }

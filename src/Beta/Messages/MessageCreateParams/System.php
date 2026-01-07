@@ -17,7 +17,8 @@ use Anthropic\Core\Conversion\ListOf;
  *
  * @phpstan-import-type BetaTextBlockParamShape from \Anthropic\Beta\Messages\BetaTextBlockParam
  *
- * @phpstan-type SystemShape = string|list<BetaTextBlockParamShape>
+ * @phpstan-type SystemVariants = string|list<BetaTextBlockParam>
+ * @phpstan-type SystemShape = SystemVariants|list<BetaTextBlockParamShape>
  */
 final class System implements ConverterSource
 {

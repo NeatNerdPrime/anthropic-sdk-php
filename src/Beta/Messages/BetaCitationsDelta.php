@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type CitationVariants from \Anthropic\Beta\Messages\BetaCitationsDelta\Citation
  * @phpstan-import-type CitationShape from \Anthropic\Beta\Messages\BetaCitationsDelta\Citation
  *
  * @phpstan-type BetaCitationsDeltaShape = array{
@@ -25,6 +26,7 @@ final class BetaCitationsDelta implements BaseModel
     #[Required]
     public string $type = 'citations_delta';
 
+    /** @var CitationVariants $citation */
     #[Required(union: Citation::class)]
     public BetaCitationCharLocation|BetaCitationPageLocation|BetaCitationContentBlockLocation|BetaCitationsWebSearchResultLocation|BetaCitationSearchResultLocation $citation;
 

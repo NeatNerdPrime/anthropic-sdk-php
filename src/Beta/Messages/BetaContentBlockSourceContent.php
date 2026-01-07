@@ -12,7 +12,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaTextBlockParamShape from \Anthropic\Beta\Messages\BetaTextBlockParam
  * @phpstan-import-type BetaImageBlockParamShape from \Anthropic\Beta\Messages\BetaImageBlockParam
  *
- * @phpstan-type BetaContentBlockSourceContentShape = BetaTextBlockParamShape|BetaImageBlockParamShape
+ * @phpstan-type BetaContentBlockSourceContentVariants = BetaTextBlockParam|BetaImageBlockParam
+ * @phpstan-type BetaContentBlockSourceContentShape = BetaContentBlockSourceContentVariants|BetaTextBlockParamShape|BetaImageBlockParamShape
  */
 final class BetaContentBlockSourceContent implements ConverterSource
 {

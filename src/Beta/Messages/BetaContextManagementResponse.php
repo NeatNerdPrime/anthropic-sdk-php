@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type AppliedEditVariants from \Anthropic\Beta\Messages\BetaContextManagementResponse\AppliedEdit
  * @phpstan-import-type AppliedEditShape from \Anthropic\Beta\Messages\BetaContextManagementResponse\AppliedEdit
  *
  * @phpstan-type BetaContextManagementResponseShape = array{
@@ -24,7 +25,7 @@ final class BetaContextManagementResponse implements BaseModel
     /**
      * List of context management edits that were applied.
      *
-     * @var list<BetaClearToolUses20250919EditResponse|BetaClearThinking20251015EditResponse> $appliedEdits
+     * @var list<AppliedEditVariants> $appliedEdits
      */
     #[Required('applied_edits', list: AppliedEdit::class)]
     public array $appliedEdits;

@@ -14,7 +14,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaWebFetchToolResultErrorBlockShape from \Anthropic\Beta\Messages\BetaWebFetchToolResultErrorBlock
  * @phpstan-import-type BetaWebFetchBlockShape from \Anthropic\Beta\Messages\BetaWebFetchBlock
  *
- * @phpstan-type ContentShape = BetaWebFetchToolResultErrorBlockShape|BetaWebFetchBlockShape
+ * @phpstan-type ContentVariants = BetaWebFetchToolResultErrorBlock|BetaWebFetchBlock
+ * @phpstan-type ContentShape = ContentVariants|BetaWebFetchToolResultErrorBlockShape|BetaWebFetchBlockShape
  */
 final class Content implements ConverterSource
 {

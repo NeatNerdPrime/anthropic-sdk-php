@@ -12,6 +12,8 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ClearToolInputsVariants from \Anthropic\Beta\Messages\BetaClearToolUses20250919Edit\ClearToolInputs
+ * @phpstan-import-type TriggerVariants from \Anthropic\Beta\Messages\BetaClearToolUses20250919Edit\Trigger
  * @phpstan-import-type BetaInputTokensClearAtLeastShape from \Anthropic\Beta\Messages\BetaInputTokensClearAtLeast
  * @phpstan-import-type ClearToolInputsShape from \Anthropic\Beta\Messages\BetaClearToolUses20250919Edit\ClearToolInputs
  * @phpstan-import-type BetaToolUsesKeepShape from \Anthropic\Beta\Messages\BetaToolUsesKeep
@@ -44,7 +46,7 @@ final class BetaClearToolUses20250919Edit implements BaseModel
     /**
      * Whether to clear all tool inputs (bool) or specific tool inputs to clear (list).
      *
-     * @var bool|list<string>|null $clearToolInputs
+     * @var ClearToolInputsVariants|null $clearToolInputs
      */
     #[Optional(
         'clear_tool_inputs',
@@ -69,6 +71,8 @@ final class BetaClearToolUses20250919Edit implements BaseModel
 
     /**
      * Condition that triggers the context management strategy.
+     *
+     * @var TriggerVariants|null $trigger
      */
     #[Optional(union: Trigger::class)]
     public BetaInputTokensTrigger|BetaToolUsesTrigger|null $trigger;

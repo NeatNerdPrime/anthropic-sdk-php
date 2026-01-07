@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaInputTokensTriggerShape from \Anthropic\Beta\Messages\BetaInputTokensTrigger
  * @phpstan-import-type BetaToolUsesTriggerShape from \Anthropic\Beta\Messages\BetaToolUsesTrigger
  *
- * @phpstan-type TriggerShape = BetaInputTokensTriggerShape|BetaToolUsesTriggerShape
+ * @phpstan-type TriggerVariants = BetaInputTokensTrigger|BetaToolUsesTrigger
+ * @phpstan-type TriggerShape = TriggerVariants|BetaInputTokensTriggerShape|BetaToolUsesTriggerShape
  */
 final class Trigger implements ConverterSource
 {

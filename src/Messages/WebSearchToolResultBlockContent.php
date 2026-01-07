@@ -13,7 +13,8 @@ use Anthropic\Core\Conversion\ListOf;
  * @phpstan-import-type WebSearchToolResultErrorShape from \Anthropic\Messages\WebSearchToolResultError
  * @phpstan-import-type WebSearchResultBlockShape from \Anthropic\Messages\WebSearchResultBlock
  *
- * @phpstan-type WebSearchToolResultBlockContentShape = WebSearchToolResultErrorShape|list<WebSearchResultBlockShape>
+ * @phpstan-type WebSearchToolResultBlockContentVariants = WebSearchToolResultError|list<WebSearchResultBlock>
+ * @phpstan-type WebSearchToolResultBlockContentShape = WebSearchToolResultBlockContentVariants|WebSearchToolResultErrorShape|list<WebSearchResultBlockShape>
  */
 final class WebSearchToolResultBlockContent implements ConverterSource
 {

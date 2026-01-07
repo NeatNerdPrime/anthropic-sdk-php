@@ -10,6 +10,7 @@ use Anthropic\Core\Contracts\BaseModel;
 use Anthropic\Messages\RawContentBlockStartEvent\ContentBlock;
 
 /**
+ * @phpstan-import-type ContentBlockVariants from \Anthropic\Messages\RawContentBlockStartEvent\ContentBlock
  * @phpstan-import-type ContentBlockShape from \Anthropic\Messages\RawContentBlockStartEvent\ContentBlock
  *
  * @phpstan-type RawContentBlockStartEventShape = array{
@@ -25,6 +26,7 @@ final class RawContentBlockStartEvent implements BaseModel
     #[Required]
     public string $type = 'content_block_start';
 
+    /** @var ContentBlockVariants $contentBlock */
     #[Required(
         'content_block',
         union: ContentBlock::class,

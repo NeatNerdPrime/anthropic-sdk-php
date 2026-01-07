@@ -11,6 +11,7 @@ use Anthropic\Core\Contracts\BaseModel;
 /**
  * This is a single line in the response `.jsonl` file and does not represent the response as a whole.
  *
+ * @phpstan-import-type MessageBatchResultVariants from \Anthropic\Beta\Messages\Batches\MessageBatchResult
  * @phpstan-import-type MessageBatchResultShape from \Anthropic\Beta\Messages\Batches\MessageBatchResult
  *
  * @phpstan-type MessageBatchIndividualResponseShape = array{
@@ -34,6 +35,8 @@ final class MessageBatchIndividualResponse implements BaseModel
      * Processing result for this request.
      *
      * Contains a Message output if processing was successful, an error response if processing failed, or the reason why processing was not attempted, such as cancellation or expiration.
+     *
+     * @var MessageBatchResultVariants $result
      */
     #[Required(union: MessageBatchResult::class)]
     public MessageBatchSucceededResult|MessageBatchErroredResult|MessageBatchCanceledResult|MessageBatchExpiredResult $result;

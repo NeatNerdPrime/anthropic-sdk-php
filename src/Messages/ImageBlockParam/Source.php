@@ -14,7 +14,8 @@ use Anthropic\Messages\URLImageSource;
  * @phpstan-import-type Base64ImageSourceShape from \Anthropic\Messages\Base64ImageSource
  * @phpstan-import-type URLImageSourceShape from \Anthropic\Messages\URLImageSource
  *
- * @phpstan-type SourceShape = Base64ImageSourceShape|URLImageSourceShape
+ * @phpstan-type SourceVariants = Base64ImageSource|URLImageSource
+ * @phpstan-type SourceShape = SourceVariants|Base64ImageSourceShape|URLImageSourceShape
  */
 final class Source implements ConverterSource
 {

@@ -12,7 +12,7 @@ use Anthropic\Core\Contracts\BaseModel;
  * @phpstan-import-type BetaCodeExecutionOutputBlockParamShape from \Anthropic\Beta\Messages\BetaCodeExecutionOutputBlockParam
  *
  * @phpstan-type BetaCodeExecutionResultBlockParamShape = array{
- *   content: list<BetaCodeExecutionOutputBlockParamShape>,
+ *   content: list<BetaCodeExecutionOutputBlockParam|BetaCodeExecutionOutputBlockParamShape>,
  *   returnCode: int,
  *   stderr: string,
  *   stdout: string,
@@ -71,7 +71,7 @@ final class BetaCodeExecutionResultBlockParam implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<BetaCodeExecutionOutputBlockParamShape> $content
+     * @param list<BetaCodeExecutionOutputBlockParam|BetaCodeExecutionOutputBlockParamShape> $content
      */
     public static function with(
         array $content,
@@ -90,7 +90,7 @@ final class BetaCodeExecutionResultBlockParam implements BaseModel
     }
 
     /**
-     * @param list<BetaCodeExecutionOutputBlockParamShape> $content
+     * @param list<BetaCodeExecutionOutputBlockParam|BetaCodeExecutionOutputBlockParamShape> $content
      */
     public function withContent(array $content): self
     {

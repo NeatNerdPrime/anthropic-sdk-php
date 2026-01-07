@@ -15,7 +15,7 @@ use Anthropic\Core\Contracts\BaseModel;
  * @phpstan-import-type CitationsConfigParamShape from \Anthropic\Messages\CitationsConfigParam
  *
  * @phpstan-type SearchResultBlockParamShape = array{
- *   content: list<TextBlockParamShape>,
+ *   content: list<TextBlockParam|TextBlockParamShape>,
  *   source: string,
  *   title: string,
  *   type: 'search_result',
@@ -75,7 +75,7 @@ final class SearchResultBlockParam implements BaseModel
      *
      * You must use named parameters to construct any parameters with a default value.
      *
-     * @param list<TextBlockParamShape> $content
+     * @param list<TextBlockParam|TextBlockParamShape> $content
      * @param CacheControlEphemeral|CacheControlEphemeralShape|null $cacheControl
      * @param CitationsConfigParam|CitationsConfigParamShape|null $citations
      */
@@ -99,7 +99,7 @@ final class SearchResultBlockParam implements BaseModel
     }
 
     /**
-     * @param list<TextBlockParamShape> $content
+     * @param list<TextBlockParam|TextBlockParamShape> $content
      */
     public function withContent(array $content): self
     {

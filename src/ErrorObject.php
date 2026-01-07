@@ -19,7 +19,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type APIErrorObjectShape from \Anthropic\APIErrorObject
  * @phpstan-import-type OverloadedErrorShape from \Anthropic\OverloadedError
  *
- * @phpstan-type ErrorObjectShape = InvalidRequestErrorShape|AuthenticationErrorShape|BillingErrorShape|PermissionErrorShape|NotFoundErrorShape|RateLimitErrorShape|GatewayTimeoutErrorShape|APIErrorObjectShape|OverloadedErrorShape
+ * @phpstan-type ErrorObjectVariants = InvalidRequestError|AuthenticationError|BillingError|PermissionError|NotFoundError|RateLimitError|GatewayTimeoutError|APIErrorObject|OverloadedError
+ * @phpstan-type ErrorObjectShape = ErrorObjectVariants|InvalidRequestErrorShape|AuthenticationErrorShape|BillingErrorShape|PermissionErrorShape|NotFoundErrorShape|RateLimitErrorShape|GatewayTimeoutErrorShape|APIErrorObjectShape|OverloadedErrorShape
  */
 final class ErrorObject implements ConverterSource
 {

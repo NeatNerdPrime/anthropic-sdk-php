@@ -11,6 +11,7 @@ use Anthropic\Core\Contracts\BaseModel;
 use Anthropic\Messages\ToolResultBlockParam\Content;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Messages\ToolResultBlockParam\Content
  * @phpstan-import-type CacheControlEphemeralShape from \Anthropic\Messages\CacheControlEphemeral
  * @phpstan-import-type ContentShape from \Anthropic\Messages\ToolResultBlockParam\Content
  *
@@ -40,9 +41,7 @@ final class ToolResultBlockParam implements BaseModel
     #[Optional('cache_control', nullable: true)]
     public ?CacheControlEphemeral $cacheControl;
 
-    /**
-     * @var string|list<TextBlockParam|ImageBlockParam|SearchResultBlockParam|DocumentBlockParam>|null $content
-     */
+    /** @var ContentVariants|null $content */
     #[Optional(union: Content::class)]
     public string|array|null $content;
 

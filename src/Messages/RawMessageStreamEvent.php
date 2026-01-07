@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type RawContentBlockDeltaEventShape from \Anthropic\Messages\RawContentBlockDeltaEvent
  * @phpstan-import-type RawContentBlockStopEventShape from \Anthropic\Messages\RawContentBlockStopEvent
  *
- * @phpstan-type RawMessageStreamEventShape = RawMessageStartEventShape|RawMessageDeltaEventShape|RawMessageStopEventShape|RawContentBlockStartEventShape|RawContentBlockDeltaEventShape|RawContentBlockStopEventShape
+ * @phpstan-type RawMessageStreamEventVariants = RawMessageStartEvent|RawMessageDeltaEvent|RawMessageStopEvent|RawContentBlockStartEvent|RawContentBlockDeltaEvent|RawContentBlockStopEvent
+ * @phpstan-type RawMessageStreamEventShape = RawMessageStreamEventVariants|RawMessageStartEventShape|RawMessageDeltaEventShape|RawMessageStopEventShape|RawContentBlockStartEventShape|RawContentBlockDeltaEventShape|RawContentBlockStopEventShape
  */
 final class RawMessageStreamEvent implements ConverterSource
 {

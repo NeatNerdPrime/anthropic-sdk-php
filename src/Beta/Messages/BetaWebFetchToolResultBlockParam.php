@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaWebFetchToolResultBlockParam\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaWebFetchToolResultBlockParam\Content
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  *
@@ -29,6 +30,7 @@ final class BetaWebFetchToolResultBlockParam implements BaseModel
     #[Required]
     public string $type = 'web_fetch_tool_result';
 
+    /** @var ContentVariants $content */
     #[Required]
     public BetaWebFetchToolResultErrorBlockParam|BetaWebFetchBlockParam $content;
 

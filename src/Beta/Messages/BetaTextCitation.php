@@ -15,7 +15,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaCitationsWebSearchResultLocationShape from \Anthropic\Beta\Messages\BetaCitationsWebSearchResultLocation
  * @phpstan-import-type BetaCitationSearchResultLocationShape from \Anthropic\Beta\Messages\BetaCitationSearchResultLocation
  *
- * @phpstan-type BetaTextCitationShape = BetaCitationCharLocationShape|BetaCitationPageLocationShape|BetaCitationContentBlockLocationShape|BetaCitationsWebSearchResultLocationShape|BetaCitationSearchResultLocationShape
+ * @phpstan-type BetaTextCitationVariants = BetaCitationCharLocation|BetaCitationPageLocation|BetaCitationContentBlockLocation|BetaCitationsWebSearchResultLocation|BetaCitationSearchResultLocation
+ * @phpstan-type BetaTextCitationShape = BetaTextCitationVariants|BetaCitationCharLocationShape|BetaCitationPageLocationShape|BetaCitationContentBlockLocationShape|BetaCitationsWebSearchResultLocationShape|BetaCitationSearchResultLocationShape
  */
 final class BetaTextCitation implements ConverterSource
 {

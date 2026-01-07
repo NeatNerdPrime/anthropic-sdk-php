@@ -21,6 +21,9 @@ use Anthropic\PageCursor;
 use Anthropic\RequestOptions;
 use Anthropic\ServiceContracts\Beta\SkillsRawContract;
 
+/**
+ * @phpstan-import-type RequestOpts from \Anthropic\RequestOptions
+ */
 final class SkillsRawService implements SkillsRawContract
 {
     // @phpstan-ignore-next-line
@@ -37,8 +40,9 @@ final class SkillsRawService implements SkillsRawContract
      * @param array{
      *   displayTitle?: string|null,
      *   files?: list<string>|null,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|SkillCreateParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<SkillNewResponse>
      *
@@ -46,7 +50,7 @@ final class SkillsRawService implements SkillsRawContract
      */
     public function create(
         array|SkillCreateParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = SkillCreateParams::parseRequest(
             $params,
@@ -89,8 +93,9 @@ final class SkillsRawService implements SkillsRawContract
      *
      * The format and length of IDs may change over time.
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|SkillRetrieveParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<SkillGetResponse>
      *
@@ -99,7 +104,7 @@ final class SkillsRawService implements SkillsRawContract
     public function retrieve(
         string $skillID,
         array|SkillRetrieveParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = SkillRetrieveParams::parseRequest(
             $params,
@@ -131,8 +136,9 @@ final class SkillsRawService implements SkillsRawContract
      *   limit?: int,
      *   page?: string|null,
      *   source?: string|null,
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>,
      * }|SkillListParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<PageCursor<SkillListResponse>>
      *
@@ -140,7 +146,7 @@ final class SkillsRawService implements SkillsRawContract
      */
     public function list(
         array|SkillListParams $params,
-        ?RequestOptions $requestOptions = null
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = SkillListParams::parseRequest(
             $params,
@@ -178,8 +184,9 @@ final class SkillsRawService implements SkillsRawContract
      *
      * The format and length of IDs may change over time.
      * @param array{
-     *   betas?: list<string|'message-batches-2024-09-24'|'prompt-caching-2024-07-31'|'computer-use-2024-10-22'|'computer-use-2025-01-24'|'pdfs-2024-09-25'|'token-counting-2024-11-01'|'token-efficient-tools-2025-02-19'|'output-128k-2025-02-19'|'files-api-2025-04-14'|'mcp-client-2025-04-04'|'mcp-client-2025-11-20'|'dev-full-thinking-2025-05-14'|'interleaved-thinking-2025-05-14'|'code-execution-2025-05-22'|'extended-cache-ttl-2025-04-11'|'context-1m-2025-08-07'|'context-management-2025-06-27'|'model-context-window-exceeded-2025-08-26'|'skills-2025-10-02'|AnthropicBeta>,
+     *   betas?: list<string|AnthropicBeta|value-of<AnthropicBeta>>
      * }|SkillDeleteParams $params
+     * @param RequestOpts|null $requestOptions
      *
      * @return BaseResponse<SkillDeleteResponse>
      *
@@ -188,7 +195,7 @@ final class SkillsRawService implements SkillsRawContract
     public function delete(
         string $skillID,
         array|SkillDeleteParams $params,
-        ?RequestOptions $requestOptions = null,
+        RequestOptions|array|null $requestOptions = null,
     ): BaseResponse {
         [$parsed, $options] = SkillDeleteParams::parseRequest(
             $params,

@@ -10,6 +10,7 @@ use Anthropic\Core\Contracts\BaseModel;
 use Anthropic\Messages\ContentBlockSource\Content;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Messages\ContentBlockSource\Content
  * @phpstan-import-type ContentShape from \Anthropic\Messages\ContentBlockSource\Content
  *
  * @phpstan-type ContentBlockSourceShape = array{
@@ -25,7 +26,7 @@ final class ContentBlockSource implements BaseModel
     #[Required]
     public string $type = 'content';
 
-    /** @var string|list<TextBlockParam|ImageBlockParam> $content */
+    /** @var ContentVariants $content */
     #[Required(union: Content::class)]
     public string|array $content;
 

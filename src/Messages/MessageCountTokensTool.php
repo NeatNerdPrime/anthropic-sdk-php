@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type ToolTextEditor20250728Shape from \Anthropic\Messages\ToolTextEditor20250728
  * @phpstan-import-type WebSearchTool20250305Shape from \Anthropic\Messages\WebSearchTool20250305
  *
- * @phpstan-type MessageCountTokensToolShape = ToolShape|ToolBash20250124Shape|ToolTextEditor20250124Shape|ToolTextEditor20250429Shape|ToolTextEditor20250728Shape|WebSearchTool20250305Shape
+ * @phpstan-type MessageCountTokensToolVariants = Tool|ToolBash20250124|ToolTextEditor20250124|ToolTextEditor20250429|ToolTextEditor20250728|WebSearchTool20250305
+ * @phpstan-type MessageCountTokensToolShape = MessageCountTokensToolVariants|ToolShape|ToolBash20250124Shape|ToolTextEditor20250124Shape|ToolTextEditor20250429Shape|ToolTextEditor20250728Shape|WebSearchTool20250305Shape
  */
 final class MessageCountTokensTool implements ConverterSource
 {

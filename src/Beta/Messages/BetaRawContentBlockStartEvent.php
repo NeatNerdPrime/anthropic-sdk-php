@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentBlockVariants from \Anthropic\Beta\Messages\BetaRawContentBlockStartEvent\ContentBlock
  * @phpstan-import-type ContentBlockShape from \Anthropic\Beta\Messages\BetaRawContentBlockStartEvent\ContentBlock
  *
  * @phpstan-type BetaRawContentBlockStartEventShape = array{
@@ -27,6 +28,8 @@ final class BetaRawContentBlockStartEvent implements BaseModel
 
     /**
      * Response model for a file uploaded to the container.
+     *
+     * @var ContentBlockVariants $contentBlock
      */
     #[Required('content_block', union: ContentBlock::class)]
     public BetaTextBlock|BetaThinkingBlock|BetaRedactedThinkingBlock|BetaToolUseBlock|BetaServerToolUseBlock|BetaWebSearchToolResultBlock|BetaWebFetchToolResultBlock|BetaCodeExecutionToolResultBlock|BetaBashCodeExecutionToolResultBlock|BetaTextEditorCodeExecutionToolResultBlock|BetaToolSearchToolResultBlock|BetaMCPToolUseBlock|BetaMCPToolResultBlock|BetaContainerUploadBlock $contentBlock;

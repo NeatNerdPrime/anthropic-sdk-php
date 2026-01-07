@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Anthropic\Beta\Messages\BetaToolResultBlockParam;
 
+use Anthropic\Beta\Messages\BetaImageBlockParam;
+use Anthropic\Beta\Messages\BetaRequestDocumentBlock;
+use Anthropic\Beta\Messages\BetaSearchResultBlockParam;
+use Anthropic\Beta\Messages\BetaTextBlockParam;
+use Anthropic\Beta\Messages\BetaToolReferenceBlockParam;
 use Anthropic\Beta\Messages\BetaToolResultBlockParam\Content\UnionMember1;
 use Anthropic\Core\Concerns\SdkUnion;
 use Anthropic\Core\Conversion\Contracts\Converter;
@@ -13,7 +18,8 @@ use Anthropic\Core\Conversion\ListOf;
 /**
  * @phpstan-import-type UnionMember1Shape from \Anthropic\Beta\Messages\BetaToolResultBlockParam\Content\UnionMember1
  *
- * @phpstan-type ContentShape = string|list<UnionMember1Shape>
+ * @phpstan-type ContentVariants = string|list<BetaTextBlockParam|BetaImageBlockParam|BetaSearchResultBlockParam|BetaRequestDocumentBlock|BetaToolReferenceBlockParam>
+ * @phpstan-type ContentShape = ContentVariants|list<UnionMember1Shape>
  */
 final class Content implements ConverterSource
 {

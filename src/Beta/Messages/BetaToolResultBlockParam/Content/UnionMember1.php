@@ -22,7 +22,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaRequestDocumentBlockShape from \Anthropic\Beta\Messages\BetaRequestDocumentBlock
  * @phpstan-import-type BetaToolReferenceBlockParamShape from \Anthropic\Beta\Messages\BetaToolReferenceBlockParam
  *
- * @phpstan-type UnionMember1Shape = BetaTextBlockParamShape|BetaImageBlockParamShape|BetaSearchResultBlockParamShape|BetaRequestDocumentBlockShape|BetaToolReferenceBlockParamShape
+ * @phpstan-type UnionMember1Variants = BetaTextBlockParam|BetaImageBlockParam|BetaSearchResultBlockParam|BetaRequestDocumentBlock|BetaToolReferenceBlockParam
+ * @phpstan-type UnionMember1Shape = UnionMember1Variants|BetaTextBlockParamShape|BetaImageBlockParamShape|BetaSearchResultBlockParamShape|BetaRequestDocumentBlockShape|BetaToolReferenceBlockParamShape
  */
 final class UnionMember1 implements ConverterSource
 {

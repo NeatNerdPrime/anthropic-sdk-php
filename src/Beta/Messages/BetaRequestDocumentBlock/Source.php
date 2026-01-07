@@ -20,7 +20,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaURLPDFSourceShape from \Anthropic\Beta\Messages\BetaURLPDFSource
  * @phpstan-import-type BetaFileDocumentSourceShape from \Anthropic\Beta\Messages\BetaFileDocumentSource
  *
- * @phpstan-type SourceShape = BetaBase64PDFSourceShape|BetaPlainTextSourceShape|BetaContentBlockSourceShape|BetaURLPDFSourceShape|BetaFileDocumentSourceShape
+ * @phpstan-type SourceVariants = BetaBase64PDFSource|BetaPlainTextSource|BetaContentBlockSource|BetaURLPDFSource|BetaFileDocumentSource
+ * @phpstan-type SourceShape = SourceVariants|BetaBase64PDFSourceShape|BetaPlainTextSourceShape|BetaContentBlockSourceShape|BetaURLPDFSourceShape|BetaFileDocumentSourceShape
  */
 final class Source implements ConverterSource
 {

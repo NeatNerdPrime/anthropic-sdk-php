@@ -11,6 +11,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type SourceVariants from \Anthropic\Beta\Messages\BetaRequestDocumentBlock\Source
  * @phpstan-import-type SourceShape from \Anthropic\Beta\Messages\BetaRequestDocumentBlock\Source
  * @phpstan-import-type BetaCacheControlEphemeralShape from \Anthropic\Beta\Messages\BetaCacheControlEphemeral
  * @phpstan-import-type BetaCitationsConfigParamShape from \Anthropic\Beta\Messages\BetaCitationsConfigParam
@@ -33,6 +34,7 @@ final class BetaRequestDocumentBlock implements BaseModel
     #[Required]
     public string $type = 'document';
 
+    /** @var SourceVariants $source */
     #[Required(union: Source::class)]
     public BetaBase64PDFSource|BetaPlainTextSource|BetaContentBlockSource|BetaURLPDFSource|BetaFileDocumentSource $source;
 

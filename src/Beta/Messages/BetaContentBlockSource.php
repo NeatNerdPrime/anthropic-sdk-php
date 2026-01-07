@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type ContentVariants from \Anthropic\Beta\Messages\BetaContentBlockSource\Content
  * @phpstan-import-type ContentShape from \Anthropic\Beta\Messages\BetaContentBlockSource\Content
  *
  * @phpstan-type BetaContentBlockSourceShape = array{
@@ -25,7 +26,7 @@ final class BetaContentBlockSource implements BaseModel
     #[Required]
     public string $type = 'content';
 
-    /** @var string|list<BetaTextBlockParam|BetaImageBlockParam> $content */
+    /** @var ContentVariants $content */
     #[Required(union: Content::class)]
     public string|array $content;
 

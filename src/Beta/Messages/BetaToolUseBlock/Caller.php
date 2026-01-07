@@ -16,7 +16,8 @@ use Anthropic\Core\Conversion\Contracts\ConverterSource;
  * @phpstan-import-type BetaDirectCallerShape from \Anthropic\Beta\Messages\BetaDirectCaller
  * @phpstan-import-type BetaServerToolCallerShape from \Anthropic\Beta\Messages\BetaServerToolCaller
  *
- * @phpstan-type CallerShape = BetaDirectCallerShape|BetaServerToolCallerShape
+ * @phpstan-type CallerVariants = BetaDirectCaller|BetaServerToolCaller
+ * @phpstan-type CallerShape = CallerVariants|BetaDirectCallerShape|BetaServerToolCallerShape
  */
 final class Caller implements ConverterSource
 {

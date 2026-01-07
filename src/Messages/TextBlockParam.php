@@ -10,6 +10,7 @@ use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
 
 /**
+ * @phpstan-import-type TextCitationParamVariants from \Anthropic\Messages\TextCitationParam
  * @phpstan-import-type CacheControlEphemeralShape from \Anthropic\Messages\CacheControlEphemeral
  * @phpstan-import-type TextCitationParamShape from \Anthropic\Messages\TextCitationParam
  *
@@ -38,9 +39,7 @@ final class TextBlockParam implements BaseModel
     #[Optional('cache_control', nullable: true)]
     public ?CacheControlEphemeral $cacheControl;
 
-    /**
-     * @var list<CitationCharLocationParam|CitationPageLocationParam|CitationContentBlockLocationParam|CitationWebSearchResultLocationParam|CitationSearchResultLocationParam>|null $citations
-     */
+    /** @var list<TextCitationParamVariants>|null $citations */
     #[Optional(list: TextCitationParam::class, nullable: true)]
     public ?array $citations;
 

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Anthropic\Core\Contracts;
 
 /**
- * @internal
+ * @phpstan-import-type NormalizedRequest from \Anthropic\Core\BaseClient
  *
- * @phpstan-import-type normalized_request from \Anthropic\Core\BaseClient
+ * @internal
  *
  * @template Item
  *

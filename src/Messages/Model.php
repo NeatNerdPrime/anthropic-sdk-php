@@ -17,8 +17,14 @@ enum Model: string
 
     case CLAUDE_3_7_SONNET_20250219 = 'claude-3-7-sonnet-20250219';
 
+    /**
+     * @deprecated Model is deprecated. Migrate to claude-haiku-4-5-20251001.
+     */
     case CLAUDE_3_5_HAIKU_LATEST = 'claude-3-5-haiku-latest';
 
+    /**
+     * @deprecated Model is deprecated. Migrate to claude-haiku-4-5-20251001.
+     */
     case CLAUDE_3_5_HAIKU_20241022 = 'claude-3-5-haiku-20241022';
 
     case CLAUDE_HAIKU_4_5 = 'claude-haiku-4-5';

@@ -15,4 +15,6 @@ enum ErrorCode: string
     case TOO_MANY_REQUESTS = 'too_many_requests';
 
     case QUERY_TOO_LONG = 'query_too_long';
+
+    case REQUEST_TOO_LARGE = 'request_too_large';
 }

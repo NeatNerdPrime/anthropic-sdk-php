@@ -6,6 +6,7 @@ namespace Anthropic\Beta\Messages;
 
 use Anthropic\Beta\Messages\BetaServerToolUseBlock\Caller;
 use Anthropic\Beta\Messages\BetaServerToolUseBlock\Name;
+use Anthropic\Core\Attributes\Optional;
 use Anthropic\Core\Attributes\Required;
 use Anthropic\Core\Concerns\SdkModel;
 use Anthropic\Core\Contracts\BaseModel;
@@ -16,10 +17,10 @@ use Anthropic\Core\Contracts\BaseModel;
  *
  * @phpstan-type BetaServerToolUseBlockShape = array{
  *   id: string,
- *   caller: CallerShape,
  *   input: array<string,mixed>,
  *   name: Name|value-of<Name>,
  *   type: 'server_tool_use',
+ *   caller?: CallerShape|null,
  * }
  */
 final class BetaServerToolUseBlock implements BaseModel
@@ -34,14 +35,6 @@ final class BetaServerToolUseBlock implements BaseModel
     #[Required]
     public string $id;
 
-    /**
-     * Tool invocation directly from the model.
-     *
-     * @var CallerVariants $caller
-     */
-    #[Required(union: Caller::class)]
-    public BetaDirectCaller|BetaServerToolCaller $caller;
-
     /** @var array<string,mixed> $input */
     #[Required(map: 'mixed')]
     public array $input;
@@ -51,21 +44,25 @@ final class BetaServerToolUseBlock implements BaseModel
     public string $name;
 
     /**
+     * Tool invocation directly from the model.
+     *
+     * @var CallerVariants|null $caller
+     */
+    #[Optional(union: Caller::class)]
+    public BetaDirectCaller|BetaServerToolCaller|null $caller;
+
+    /**
      * `new BetaServerToolUseBlock()` is missing required properties by the API.
      *
      * To enforce required parameters use
      * ```
-     * BetaServerToolUseBlock::with(id: ..., caller: ..., input: ..., name: ...)
+     * BetaServerToolUseBlock::with(id: ..., input: ..., name: ...)
      * ```
      *
      * Otherwise ensure the following setters are called
      *
      * ```
-     * (new BetaServerToolUseBlock)
-     *   ->withID(...)
-     *   ->withCaller(...)
-     *   ->withInput(...)
-     *   ->withName(...)
+     * (new BetaServerToolUseBlock)->withID(...)->withInput(...)->withName(...)
      * ```
      */
     public function __construct()
@@ -80,20 +77,21 @@ final class BetaServerToolUseBlock implements BaseModel
      *
      * @param array<string,mixed> $input
      * @param Name|value-of<Name> $name
-     * @param CallerShape $caller
+     * @param CallerShape|null $caller
      */
     public static function with(
         string $id,
         array $input,
         Name|string $name,
-        BetaDirectCaller|array|BetaServerToolCaller $caller = ['type' => 'direct'],
+        BetaDirectCaller|array|BetaServerToolCaller|null $caller = null,
     ): self {
         $self = new self;
 
         $self['id'] = $id;
-        $self['caller'] = $caller;
         $self['input'] = $input;
         $self['name'] = $name;
+
+        null !== $caller && $self['caller'] = $caller;
 
         return $self;
     }
@@ -102,20 +100,6 @@ final class BetaServerToolUseBlock implements BaseModel
     {
         $self = clone $this;
         $self['id'] = $id;
-
-        return $self;
-    }
-
-    /**
-     * Tool invocation directly from the model.
-     *
-     * @param CallerShape $caller
-     */
-    public function withCaller(
-        BetaDirectCaller|array|BetaServerToolCaller $caller
-    ): self {
-        $self = clone $this;
-        $self['caller'] = $caller;
 
         return $self;
     }
@@ -138,6 +122,20 @@ final class BetaServerToolUseBlock implements BaseModel
     {
         $self = clone $this;
         $self['name'] = $name;
+
+        return $self;
+    }
+
+    /**
+     * Tool invocation directly from the model.
+     *
+     * @param CallerShape $caller
+     */
+    public function withCaller(
+        BetaDirectCaller|array|BetaServerToolCaller $caller
+    ): self {
+        $self = clone $this;
+        $self['caller'] = $caller;
 
         return $self;
     }

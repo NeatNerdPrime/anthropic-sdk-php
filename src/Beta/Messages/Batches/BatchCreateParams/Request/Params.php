@@ -181,13 +181,17 @@ final class Params implements BaseModel
     public ?BetaMetadata $metadata;
 
     /**
-     * Configuration options for the model's output. Controls aspects like how much effort the model puts into its response.
+     * Configuration options for the model's output. Controls aspects like output format or how much effort the model puts into its response.
      */
     #[Optional('output_config')]
     public ?BetaOutputConfig $outputConfig;
 
     /**
-     * A schema to specify Claude's output format in responses.
+     * @deprecated
+     *
+     * Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
+     *
+     * A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
      */
     #[Optional('output_format', nullable: true)]
     public ?BetaJSONOutputFormat $outputFormat;
@@ -581,7 +585,7 @@ final class Params implements BaseModel
     }
 
     /**
-     * Configuration options for the model's output. Controls aspects like how much effort the model puts into its response.
+     * Configuration options for the model's output. Controls aspects like output format or how much effort the model puts into its response.
      *
      * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig
      */
@@ -594,7 +598,9 @@ final class Params implements BaseModel
     }
 
     /**
-     * A schema to specify Claude's output format in responses.
+     * Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
+     *
+     * A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
      *
      * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat
      */

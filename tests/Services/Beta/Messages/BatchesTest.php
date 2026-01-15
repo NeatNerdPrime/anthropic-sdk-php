@@ -99,7 +99,12 @@ final class BatchesTest extends TestCase
                             ],
                         ],
                         'metadata' => ['userID' => '13803d75-b4b5-4c3e-b2a2-6f21399b021b'],
-                        'outputConfig' => ['effort' => 'low'],
+                        'outputConfig' => [
+                            'effort' => 'low',
+                            'format' => [
+                                'schema' => ['foo' => 'bar'], 'type' => 'json_schema',
+                            ],
+                        ],
                         'outputFormat' => [
                             'schema' => ['foo' => 'bar'], 'type' => 'json_schema',
                         ],

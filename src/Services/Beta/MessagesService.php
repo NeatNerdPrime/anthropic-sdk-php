@@ -142,9 +142,10 @@ final class MessagesService implements MessagesContract
      * This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
      * @param list<BetaRequestMCPServerURLDefinition|BetaRequestMCPServerURLDefinitionShape> $mcpServers Body param: MCP servers to be utilized in this request
      * @param BetaMetadata|BetaMetadataShape $metadata body param: An object describing metadata about the request
-     * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig Body param: Configuration options for the model's output. Controls aspects like how much effort the model puts into its response.
-     * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat body param:
-     * A schema to specify Claude's output format in responses
+     * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig Body param: Configuration options for the model's output. Controls aspects like output format or how much effort the model puts into its response.
+     * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat Body param: Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
+     *
+     * A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
      * @param ServiceTier|value-of<ServiceTier> $serviceTier Body param: Determines whether to use priority capacity (if available) or standard capacity for this request.
      *
      * Anthropic offers different levels of service for your API requests. See [service-tiers](https://docs.claude.com/en/api/service-tiers) for details.
@@ -358,9 +359,10 @@ final class MessagesService implements MessagesContract
      * This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
      * @param list<BetaRequestMCPServerURLDefinition|BetaRequestMCPServerURLDefinitionShape> $mcpServers Body param: MCP servers to be utilized in this request
      * @param BetaMetadata|BetaMetadataShape $metadata body param: An object describing metadata about the request
-     * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig Body param: Configuration options for the model's output. Controls aspects like how much effort the model puts into its response.
-     * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat body param:
-     * A schema to specify Claude's output format in responses
+     * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig Body param: Configuration options for the model's output. Controls aspects like output format or how much effort the model puts into its response.
+     * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat Body param: Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
+     *
+     * A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
      * @param ServiceTier|value-of<ServiceTier> $serviceTier Body param: Determines whether to use priority capacity (if available) or standard capacity for this request.
      *
      * Anthropic offers different levels of service for your API requests. See [service-tiers](https://docs.claude.com/en/api/service-tiers) for details.
@@ -575,9 +577,10 @@ final class MessagesService implements MessagesContract
      *
      * This allows you to control how Claude manages context across multiple requests, such as whether to clear function results or not.
      * @param list<BetaRequestMCPServerURLDefinition|BetaRequestMCPServerURLDefinitionShape> $mcpServers Body param: MCP servers to be utilized in this request
-     * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig Body param: Configuration options for the model's output. Controls aspects like how much effort the model puts into its response.
-     * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat body param:
-     * A schema to specify Claude's output format in responses
+     * @param BetaOutputConfig|BetaOutputConfigShape $outputConfig Body param: Configuration options for the model's output. Controls aspects like output format or how much effort the model puts into its response.
+     * @param BetaJSONOutputFormat|BetaJSONOutputFormatShape|null $outputFormat Body param: Deprecated: Use `output_config.format` instead. See [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
+     *
+     * A schema to specify Claude's output format in responses. This parameter will be removed in a future release.
      * @param SystemShape $system Body param: System prompt.
      *
      * A system prompt is a way of providing context and instructions to Claude, such as specifying a particular goal or role. See our [guide to system prompts](https://docs.claude.com/en/docs/system-prompts).
